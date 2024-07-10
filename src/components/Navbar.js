@@ -50,7 +50,7 @@ const Navbar = ({ onSelect }) => {
     return (
         <div className="navbar" tabIndex="0" onKeyDown={handleKeyDown}>
             <p className='title'>Hi</p>
-            <div className="arrow" ref={arrowRef} style={{top: `${itemRefs.current[selectedIndex]?.current?.offsetTop + itemRefs.current[selectedIndex]?.current?.getBoundingClientRect().height / 2 - arrowRef.current?.clientHeight / 2}px`}}>▶</div>
+            <div className="arrow" ref={arrowRef}>▶</div>
             <div className='navbar-container'>
                 {menuItems.map((item, index) => (
                     <div key={item} ref={itemRefs.current[index]} className="navbar-item">
