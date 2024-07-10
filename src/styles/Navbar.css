@@ -1,0 +1,35 @@
+/* src/components/Navbar.css */
+.navbar {
+    width: 33%;
+    background-color: #000;
+    color: rgb(0, 255, 0);
+    align-items: center;
+    position: relative;
+    font-family: 'Courier New', Courier, monospace;
+  }
+
+.title {
+    font-size: 4vw;
+    font-weight: bold;
+}
+
+.navbar-container {
+    align-self: center;
+}
+
+.navbar-item {
+display: flex;
+align-items: center;
+cursor: pointer;
+font-size: 2vw;
+margin-bottom: 10px;
+padding-left: 3vw;
+font-weight: bold;
+}
+  
+.arrow {
+position: absolute;
+font-family: 'Courier New', Courier, monospace;
+white-space: nowrap;
+}
+  

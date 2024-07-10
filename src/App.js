@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import React, { useState } from 'react';
+import Navbar from './components/Navbar';
+import Home from './sections/Home';
+import About from './sections/About';
+import './styles/App.css';
 
-function App() {
+const App = () => {
+  const [selectedSection, setSelectedSection] = useState('Home');
+
+  const renderSection = () => {
+    switch (selectedSection) {
+      case 'Home':
+        return <Home />;
+      case 'About':
+        return <About />;
+      default:
+        return <Home />;
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <Navbar onSelect={setSelectedSection} />
+      <div className="content">
+        {renderSection()}
+      </div>
     </div>
   );
-}
+};
 
 export default App;
