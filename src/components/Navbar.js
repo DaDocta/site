@@ -12,13 +12,23 @@ const Navbar = ({ onSelect }) => {
         if (currentRef && currentRef.current) {
             const itemStyle = window.getComputedStyle(currentRef.current);
             const itemHeight = currentRef.current.getBoundingClientRect().height;
+            console.log('itemHeight', itemHeight);
             arrowRef.current.style.top = `${currentRef.current.offsetTop + itemHeight / 2 - arrowRef.current.clientHeight / 2}px`;
+            console.log('currentRef.current.offsetTop', currentRef.current.offsetTop)
+            console.log('arrowRef.current.clientHeight', arrowRef.current.clientHeight)
+            console.log('arrowRef.current.style.top', arrowRef.current.style.top)
+            console.log("")
             arrowRef.current.style.fontSize = itemStyle.fontSize; // Ensure arrow font size matches
         }
     };
 
     useEffect(() => {
         console.log('Initial render');
+        const timer = setTimeout(() => {
+            console.log('Timer triggered');
+            setSelectedIndex(1);
+            
+        }, 2000);
         const atimer = setTimeout(() => {
             console.log('Timer triggered');
             setSelectedIndex(0);
