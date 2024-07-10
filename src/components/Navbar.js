@@ -17,7 +17,22 @@ const Navbar = ({ onSelect }) => {
         }
     };
 
-    
+    useEffect(() => {
+        console.log('Initial render');
+        const timer = setTimeout(() => {
+            console.log('Timer triggered');
+            setSelectedIndex(1);
+            
+        }, 2000);
+        const atimer = setTimeout(() => {
+            console.log('Timer triggered');
+            setSelectedIndex(0);
+            
+        }, 3000);
+        return () => clearTimeout(atimer);
+
+    }, []);
+
     useEffect(() => {
         // Update arrow position when selectedIndex changes
         updateArrowPosition();
