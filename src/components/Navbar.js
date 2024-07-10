@@ -19,13 +19,12 @@ const Navbar = ({ onSelect }) => {
     };
 
     useEffect(() => {
-        console.log('Initial render'); // Debug log
-        // Wait for 2 seconds before setting the initial selected index to "About"
+        console.log('Initial render');
         const timer = setTimeout(() => {
-            console.log('Timer triggered'); // Debug log
-            setSelectedIndex(1); // Move to "About"
-        }, 2000);
-        return () => clearTimeout(timer); // Cleanup the timeout if the component unmounts
+            console.log('Timer triggered');
+            setSelectedIndex(0);
+        }, 1);
+        return () => clearTimeout(timer);
     }, []);
 
     useEffect(() => {
