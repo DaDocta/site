@@ -7,7 +7,6 @@ const Navbar = ({ onSelect }) => {
     const arrowRef = useRef(null);
     const itemRefs = useRef(menuItems.map(() => React.createRef()));
 
-    // Function to update arrow position
     const updateArrowPosition = () => {
         const currentRef = itemRefs.current[selectedIndex];
         if (currentRef && currentRef.current) {
@@ -18,16 +17,7 @@ const Navbar = ({ onSelect }) => {
         }
     };
 
-    useEffect(() => {
-        console.log('Initial render');
-        const timer = setTimeout(() => {
-            console.log('Timer triggered');
-            setSelectedIndex(1);
-            setSelectedIndex(0);
-        }, 1);
-        return () => clearTimeout(timer);
-    }, []);
-
+    
     useEffect(() => {
         // Update arrow position when selectedIndex changes
         updateArrowPosition();
@@ -45,7 +35,7 @@ const Navbar = ({ onSelect }) => {
     return (
         <div className="navbar" tabIndex="0" onKeyDown={handleKeyDown}>
             <p className='title'>Hi</p>
-            <div className="arrow" ref={arrowRef}>▶</div>
+            <div className="arrow" ref={arrowRef} style={{top: `${itemRefs.current[selectedIndex]?.current?.offsetTop + itemRefs.current[selectedIndex]?.current?.getBoundingClientRect().height / 2 - arrowRef.current?.clientHeight / 2}px`}}>▶</div>
             <div className='navbar-container'>
                 {menuItems.map((item, index) => (
                     <div key={item} ref={itemRefs.current[index]} className="navbar-item">
