@@ -22,6 +22,7 @@ const Navbar = ({ onSelect }) => {
         console.log('Initial render');
         const timer = setTimeout(() => {
             console.log('Timer triggered');
+            setSelectedIndex(1);
             setSelectedIndex(0);
         }, 1);
         return () => clearTimeout(timer);
