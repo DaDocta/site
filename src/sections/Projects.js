@@ -1,12 +1,12 @@
 // src/components/Home.js
 import React from 'react';
-import '../styles/Home.css';
+import '../styles/Projects.css';
 
 const Home = () => {
   return (
     <div className="section">
-      <h1>Home</h1>
-      <p>Welcome to the Home page.</p>
+      <h1>Projects</h1>
+      <p>Welcome to the Projects page.</p>
     </div>
   );
 };

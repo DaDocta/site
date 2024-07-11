@@ -2,22 +2,20 @@ import React, { useState, useEffect, useRef } from 'react';
 import '../styles/Navbar.css';
 
 const Navbar = ({ onSelect }) => {
-    const [selectedIndex, setSelectedIndex] = useState(0); // Set initial index to 1 for "About"
+    const [selectedIndex, setSelectedIndex] = useState(0);
     const menuItems = ['Home', 'About', 'Experience', 'Projects'];
     const arrowRef = useRef(null);
     const itemRefs = useRef(menuItems.map(() => React.createRef()));
+    const navbarRef = useRef(null);
 
     const updateArrowPosition = () => {
         const currentRef = itemRefs.current[selectedIndex];
         if (currentRef && currentRef.current) {
             const itemStyle = window.getComputedStyle(currentRef.current);
             const itemHeight = currentRef.current.getBoundingClientRect().height;
-            console.log('itemHeight', itemHeight);
-            arrowRef.current.style.top = `${currentRef.current.offsetTop + itemHeight / 2 - arrowRef.current.clientHeight / 2}px`;
-            console.log('currentRef.current.offsetTop', currentRef.current.offsetTop)
-            console.log('arrowRef.current.clientHeight', arrowRef.current.clientHeight)
-            console.log('arrowRef.current.style.top', arrowRef.current.style.top)
-            console.log("")
+            const arrowHeight = arrowRef.current ? arrowRef.current.clientHeight : 0;
+            const topPosition = currentRef.current.offsetTop + itemHeight / 2 - arrowHeight / 2;
+            arrowRef.current.style.top = `${topPosition}px`;
             arrowRef.current.style.fontSize = itemStyle.fontSize; // Ensure arrow font size matches
         }
     };
@@ -26,11 +24,10 @@ const Navbar = ({ onSelect }) => {
         // Update arrow position when selectedIndex changes
         updateArrowPosition();
         onSelect(menuItems[selectedIndex]);
-    }, [selectedIndex]);
+    }, [selectedIndex, onSelect]);
 
     useEffect(() => {
         // Update arrow position after the initial render and when component is fully rendered
-        console.log('When fully rendered')
         updateArrowPosition();
     }, []);
 
@@ -42,13 +39,35 @@ const Navbar = ({ onSelect }) => {
         }
     };
 
+    const handleClick = (index) => {
+        setSelectedIndex(index);
+    };
+
+    useEffect(() => {
+        const handleGlobalKeyDown = (event) => {
+            // Prevent default to avoid multiple handlers conflict
+            event.preventDefault();
+            handleKeyDown(event);
+        };
+
+        window.addEventListener('keydown', handleGlobalKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleGlobalKeyDown);
+        };
+    }, []);
+
     return (
-        <div className="navbar" tabIndex="0" onKeyDown={handleKeyDown}>
+        <div className="navbar" ref={navbarRef} tabIndex="0">
             <p className='title'>Hi</p>
             <div className="arrow" ref={arrowRef}>▶</div>
             <div className='navbar-container'>
                 {menuItems.map((item, index) => (
-                    <div key={item} ref={itemRefs.current[index]} className="navbar-item">
+                    <div
+                        key={item}
+                        ref={itemRefs.current[index]}
+                        className={`navbar-item ${selectedIndex === index ? 'active' : ''}`}
+                        onClick={() => handleClick(index)}
+                    >
                         {item}
                     </div>
                 ))}

@@ -1,12 +1,42 @@
-/* src/components/Navbar.css */
 .navbar {
     width: 33%;
+    height: 100vh;
     background-color: #000;
     color: rgb(0, 255, 0);
     align-items: center;
     position: relative;
     font-family: 'Courier New', Courier, monospace;
-  }
+    outline: none; /* Remove the default focus outline */
+}
+
+.vertical-line {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: rgb(0, 255, 0);
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    font-size: 20px;
+    line-height: 1.5; /* Adjust line-height for spacing */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.navbar::after {
+    content: '| | | | | | | | | | | | | | | | | |';
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    color: rgb(0, 255, 0);
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    font-size: 20px;
+    line-height: 1.5;
+    white-space: pre-line;
+}
 
 .title {
     font-size: 4vw;

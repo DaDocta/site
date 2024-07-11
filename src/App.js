@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import Home from './sections/Home';
 import About from './sections/About';
+import Experience from './sections/Experience';
+import Projects from './sections/Projects';
 import './styles/App.css';
 
 const App = () => {
@@ -14,6 +16,11 @@ const App = () => {
         return <Home />;
       case 'About':
         return <About />;
+      case 'Experience':
+        return <Experience />;
+      case 'Projects':
+        return <Projects />;
+
       default:
         return <Home />;
     }
