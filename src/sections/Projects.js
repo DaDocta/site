@@ -1,14 +1,17 @@
-// src/components/Home.js
 import React from 'react';
-import '../styles/Projects.css';
+import TypingText from '../components/TypingText';
 
-const Home = () => {
+const Projects = () => {
+  const elements = [
+    <p>These are some of my Projects.</p>,
+    <p>Check them out below.</p>,
+  ];
+
   return (
-    <div className="section">
-      <h1>Projects</h1>
-      <p>Welcome to the Projects page.</p>
+    <div>
+      <TypingText elements={elements} />
     </div>
   );
 };
 
-export default Home;
+export default Projects;

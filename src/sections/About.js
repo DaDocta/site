@@ -1,12 +1,15 @@
-// src/components/About.js
 import React from 'react';
-import '../styles/About.css';
+import TypingText from '../components/TypingText';
 
 const About = () => {
+  const elements = [
+    <p>This is the About section.</p>,
+    <p>Learn more about us here.</p>,
+  ];
+
   return (
-    <div className="section">
-      <h1>About</h1>
-      <p>This is the About page.</p>
+    <div>
+      <TypingText elements={elements} />
     </div>
   );
 };

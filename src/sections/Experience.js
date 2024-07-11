@@ -1,14 +1,17 @@
-// src/components/About.js
 import React from 'react';
-import '../styles/Experience.css';
+import TypingText from '../components/TypingText';
 
-const About = () => {
+const Experience = () => {
+  const elements = [
+    <p>Here is some information about my Experience.</p>,
+    <p>I have worked on various projects and roles.</p>,
+  ];
+
   return (
-    <div className="section">
-      <h1>Experience</h1>
-      <p>This is the Experience page.</p>
+    <div>
+      <TypingText elements={elements} />
     </div>
   );
 };
 
-export default About;
+export default Experience;

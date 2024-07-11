@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Navbar from './components/Navbar';
 import UpButton from './components/UpButton';
 import DownButton from './components/DownButton';
@@ -6,14 +6,82 @@ import Home from './sections/Home';
 import About from './sections/About';
 import Experience from './sections/Experience';
 import Projects from './sections/Projects';
+import Loading from './sections/Loading'; // Ensure this is the correct path to Loading component
 import './styles/App.css';
+import './styles/Loading.css';
 
 const App = () => {
-  const [selectedSection, setSelectedSection] = useState('Home');
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const [isPortrait, setIsPortrait] = useState(window.innerHeight > window.innerWidth);
+  const [isLoading, setIsLoading] = useState(false);
+  const loadingTimeout = useRef(null); // Use ref to store timeout ID
+  const menuItems = ['Home', 'About', 'Experience', 'Projects'];
+
+  const handleResize = () => {
+    const isPortrait = window.innerHeight > window.innerWidth;
+    setIsPortrait(isPortrait);
+    if (isPortrait) {
+      document.body.style.overflow = 'auto';
+      document.documentElement.style.overflow = 'auto';
+    } else {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      window.scrollTo(0, 0); // Scroll to top when switching to landscape mode
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('orientationchange', handleResize);
+    handleResize(); // Call once to set the initial state
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('orientationchange', handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        event.preventDefault(); // Prevent default scrolling behavior in portrait mode
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  const setNewIndex = (newIndex) => {
+    if (loadingTimeout.current) {
+      clearTimeout(loadingTimeout.current);
+    }
+    setIsLoading(true);
+    setSelectedIndex(newIndex);
+    loadingTimeout.current = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  };
+
+  const navigateToNextSection = () => {
+    setNewIndex((prevIndex) => (prevIndex + 1) % menuItems.length);
+  };
+
+  const navigateToPreviousSection = () => {
+    setNewIndex((prevIndex) => (prevIndex - 1 + menuItems.length) % menuItems.length);
+  };
+
+  const handleNavSelect = (index) => {
+    if (index !== selectedIndex) {
+      setNewIndex(index);
+    }
+  };
 
   const renderSection = () => {
-    switch (selectedSection) {
+    if (isLoading) {
+      return <Loading />;
+    }
+    switch (menuItems[selectedIndex]) {
       case 'Home':
         return <Home />;
       case 'About':
@@ -27,44 +95,21 @@ const App = () => {
     }
   };
 
-  const handleResize = () => {
-    setIsPortrait(window.innerHeight > window.innerWidth);
-  };
-
-  useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const navigateToNextSection = () => {
-    const sections = ['Home', 'About', 'Experience', 'Projects'];
-    const currentIndex = sections.indexOf(selectedSection);
-    const nextIndex = (currentIndex + 1) % sections.length;
-    setSelectedSection(sections[nextIndex]);
-  };
-
-  const navigateToPreviousSection = () => {
-    const sections = ['Home', 'About', 'Experience', 'Projects'];
-    const currentIndex = sections.indexOf(selectedSection);
-    const prevIndex = (currentIndex - 1 + sections.length) % sections.length;
-    setSelectedSection(sections[prevIndex]);
-  };
-
   return (
-    <div className="app">
+    <>
       {isPortrait ? (
-        <div className="portrait-content">
-          <UpButton onClick={navigateToPreviousSection} navigateToPreviousSection={navigateToPreviousSection} />
-          <div className="section">{renderSection()}</div>
-          <DownButton onClick={navigateToNextSection} navigateToNextSection={navigateToNextSection} />
+        <div className='portrait'>
+          <UpButton onClick={navigateToPreviousSection} />
+          <div className="portrait-section">{renderSection()}</div>
+          <DownButton onClick={navigateToNextSection} />
         </div>
       ) : (
-        <>
-          <Navbar onSelect={setSelectedSection} />
-          <div className="content">{renderSection()}</div>
-        </>
+        <div className='landscape'>
+          <Navbar selectedIndex={selectedIndex} onSelect={handleNavSelect} />
+          <div className="landscape-section">{renderSection()}</div>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 

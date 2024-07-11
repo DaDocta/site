@@ -1,12 +1,15 @@
-// src/components/Home.js
 import React from 'react';
-import '../styles/Home.css';
+import TypingText from '../components/TypingText.js';
 
 const Home = () => {
+  const elements = [
+    <p>Welcome to the Home section!</p>,
+    <p>This is an example of typing text animation.</p>,
+  ];
+
   return (
-    <div className="section">
-      <h1>Home</h1>
-      <p>Welcome to the Home page.</p>
+    <div>
+      <TypingText elements={elements} />
     </div>
   );
 };

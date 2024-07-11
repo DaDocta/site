@@ -1,4 +1,3 @@
-// src/components/Navbar.js
 import React, { useEffect, useRef, useCallback } from 'react';
 import '../styles/Navbar.css';
 
@@ -43,17 +42,13 @@ const Navbar = ({ selectedIndex, onSelect }) => {
     };
   }, [handleKeyDown]);
 
-  const handleClick = (index) => {
-    onSelect(index);
-  };
-
   return (
     <div className="navbar" tabIndex="0">
       <p className='title'>Hi</p>
       <div className="arrow" ref={arrowRef}>▶</div>
       <div className='navbar-container'>
         {menuItems.map((item, index) => (
-          <div key={item} ref={itemRefs.current[index]} className={`navbar-item ${selectedIndex === index ? 'active' : ''}`} onClick={() => handleClick(index)}>
+          <div key={item} ref={itemRefs.current[index]} className={`navbar-item ${selectedIndex === index ? 'active' : ''}`} onClick={() => onSelect(index)}>
             {item}
           </div>
         ))}

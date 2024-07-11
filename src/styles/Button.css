@@ -5,7 +5,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 40vw !important; /* Adjusted height for better visibility */
+    height: 10% !important; /* Adjusted height for better visibility */
     font-size: 10vw !important;
     font-weight: bold !important;
     cursor: pointer;
