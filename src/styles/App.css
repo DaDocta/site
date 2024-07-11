@@ -1,4 +1,4 @@
-/* src/App.css */
+/* src/styles/App.css */
 .app {
   display: flex;
   height: 100vh;
@@ -6,5 +6,40 @@
 
 .content {
   width: 67%;
+  padding: 20px;
+}
+
+.portrait-content {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+}
+
+.portrait-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  background-color: #000;
+  color: rgb(0, 255, 0);
+  font-size: 24px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.portrait-nav.top {
+  margin-bottom: auto;
+}
+
+.portrait-nav.bottom {
+  margin-top: auto;
+}
+
+.section {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 20px;
 }

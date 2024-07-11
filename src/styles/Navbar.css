@@ -1,3 +1,5 @@
+/* src/styles/Navbar.css */
+
 .navbar {
     width: 33%;
     height: 100vh;
@@ -9,33 +11,19 @@
     outline: none; /* Remove the default focus outline */
 }
 
-.vertical-line {
-    position: absolute;
-    top: 0;
-    right: 0;
-    color: rgb(0, 255, 0);
-    writing-mode: vertical-rl;
-    text-orientation: upright;
-    font-size: 20px;
-    line-height: 1.5; /* Adjust line-height for spacing */
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
 .navbar::after {
-    content: '| | | | | | | | | | | | | | | | | |';
+    content: '';
     position: absolute;
     top: 0;
     right: 0;
+    width: 2px;
     height: 100%;
-    color: rgb(0, 255, 0);
-    writing-mode: vertical-rl;
-    text-orientation: upright;
-    font-size: 20px;
-    line-height: 1.5;
-    white-space: pre-line;
+    background: linear-gradient(
+      to bottom,
+      rgb(0, 255, 0) 50%,
+      transparent 50%
+    );
+    background-size: 2px 5vh; /* Dash width and space */
 }
 
 .title {
@@ -48,18 +36,17 @@
 }
 
 .navbar-item {
-display: flex;
-align-items: center;
-cursor: pointer;
-font-size: 2vw;
-margin-bottom: 10px;
-padding-left: 3vw;
-font-weight: bold;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 2vw;
+    margin-bottom: 10px;
+    padding-left: 3vw;
+    font-weight: bold;
 }
   
 .arrow {
-position: absolute;
-font-family: 'Courier New', Courier, monospace;
-white-space: nowrap;
+    position: absolute;
+    font-family: 'Courier New', Courier, monospace;
+    white-space: nowrap;
 }
-  

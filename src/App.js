@@ -1,6 +1,8 @@
 // src/App.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
+import UpButton from './components/UpButton';
+import DownButton from './components/DownButton';
 import Home from './sections/Home';
 import About from './sections/About';
 import Experience from './sections/Experience';
@@ -8,10 +10,29 @@ import Projects from './sections/Projects';
 import './styles/App.css';
 
 const App = () => {
-  const [selectedSection, setSelectedSection] = useState('Home');
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [isPortrait, setIsPortrait] = useState(window.innerHeight > window.innerWidth);
+  const menuItems = ['Home', 'About', 'Experience', 'Projects'];
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsPortrait(window.innerHeight > window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const navigateToNextSection = () => {
+    setSelectedIndex(prevIndex => (prevIndex + 1) % menuItems.length);
+  };
+
+  const navigateToPreviousSection = () => {
+    setSelectedIndex(prevIndex => (prevIndex - 1 + menuItems.length) % menuItems.length);
+  };
 
   const renderSection = () => {
-    switch (selectedSection) {
+    switch (menuItems[selectedIndex]) {
       case 'Home':
         return <Home />;
       case 'About':
@@ -20,7 +41,6 @@ const App = () => {
         return <Experience />;
       case 'Projects':
         return <Projects />;
-
       default:
         return <Home />;
     }
@@ -28,9 +48,17 @@ const App = () => {
 
   return (
     <div className="app">
-      <Navbar onSelect={setSelectedSection} />
-      <div className="content">
-        {renderSection()}
+      {!isPortrait && <Navbar selectedIndex={selectedIndex} onSelect={setSelectedIndex} />}
+      <div className={isPortrait ? 'portrait-content' : 'content'}>
+        {isPortrait ? (
+          <>
+            <UpButton onClick={navigateToPreviousSection} navigateToPreviousSection={navigateToPreviousSection} />
+            <div className="section">{renderSection()}</div>
+            <DownButton onClick={navigateToNextSection} navigateToNextSection={navigateToNextSection} />
+          </>
+        ) : (
+          renderSection()
+        )}
       </div>
     </div>
   );
