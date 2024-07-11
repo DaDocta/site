@@ -99,9 +99,9 @@ const App = () => {
     <>
       {isPortrait ? (
         <div className='portrait'>
-          <UpButton onClick={navigateToPreviousSection} />
+          <UpButton navigateToPreviousSection={navigateToPreviousSection} onClick={navigateToPreviousSection} />
           <div className="portrait-section">{renderSection()}</div>
-          <DownButton onClick={navigateToNextSection} />
+          <DownButton navigateToNextSection={navigateToNextSection} onClick={navigateToNextSection} />
         </div>
       ) : (
         <div className='landscape'>
