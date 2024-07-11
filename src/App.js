@@ -1,4 +1,3 @@
-// src/App.js
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import UpButton from './components/UpButton';
@@ -10,29 +9,11 @@ import Projects from './sections/Projects';
 import './styles/App.css';
 
 const App = () => {
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedSection, setSelectedSection] = useState('Home');
   const [isPortrait, setIsPortrait] = useState(window.innerHeight > window.innerWidth);
-  const menuItems = ['Home', 'About', 'Experience', 'Projects'];
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsPortrait(window.innerHeight > window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const navigateToNextSection = () => {
-    setSelectedIndex(prevIndex => (prevIndex + 1) % menuItems.length);
-  };
-
-  const navigateToPreviousSection = () => {
-    setSelectedIndex(prevIndex => (prevIndex - 1 + menuItems.length) % menuItems.length);
-  };
 
   const renderSection = () => {
-    switch (menuItems[selectedIndex]) {
+    switch (selectedSection) {
       case 'Home':
         return <Home />;
       case 'About':
@@ -46,20 +27,43 @@ const App = () => {
     }
   };
 
+  const handleResize = () => {
+    setIsPortrait(window.innerHeight > window.innerWidth);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const navigateToNextSection = () => {
+    const sections = ['Home', 'About', 'Experience', 'Projects'];
+    const currentIndex = sections.indexOf(selectedSection);
+    const nextIndex = (currentIndex + 1) % sections.length;
+    setSelectedSection(sections[nextIndex]);
+  };
+
+  const navigateToPreviousSection = () => {
+    const sections = ['Home', 'About', 'Experience', 'Projects'];
+    const currentIndex = sections.indexOf(selectedSection);
+    const prevIndex = (currentIndex - 1 + sections.length) % sections.length;
+    setSelectedSection(sections[prevIndex]);
+  };
+
   return (
     <div className="app">
-      {!isPortrait && <Navbar selectedIndex={selectedIndex} onSelect={setSelectedIndex} />}
-      <div className={isPortrait ? 'portrait-content' : 'content'}>
-        {isPortrait ? (
-          <>
-            <UpButton onClick={navigateToPreviousSection} navigateToPreviousSection={navigateToPreviousSection} />
-            <div className="section">{renderSection()}</div>
-            <DownButton onClick={navigateToNextSection} navigateToNextSection={navigateToNextSection} />
-          </>
-        ) : (
-          renderSection()
-        )}
-      </div>
+      {isPortrait ? (
+        <div className="portrait-content">
+          <UpButton onClick={navigateToPreviousSection} navigateToPreviousSection={navigateToPreviousSection} />
+          <div className="section">{renderSection()}</div>
+          <DownButton onClick={navigateToNextSection} navigateToNextSection={navigateToNextSection} />
+        </div>
+      ) : (
+        <>
+          <Navbar onSelect={setSelectedSection} />
+          <div className="content">{renderSection()}</div>
+        </>
+      )}
     </div>
   );
 };

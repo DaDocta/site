@@ -9,9 +9,9 @@
     position: relative;
     font-family: 'Courier New', Courier, monospace;
     outline: none; /* Remove the default focus outline */
-}
-
-.navbar::after {
+  }
+  
+  .navbar::after {
     content: '';
     position: absolute;
     top: 0;
@@ -23,19 +23,19 @@
       rgb(0, 255, 0) 50%,
       transparent 50%
     );
-    background-size: 2px 5vh; /* Dash width and space */
-}
-
-.title {
+    background-size: 2px 20px; /* Dash width and space */
+  }
+  
+  .title {
     font-size: 4vw;
     font-weight: bold;
-}
-
-.navbar-container {
+  }
+  
+  .navbar-container {
     align-self: center;
-}
-
-.navbar-item {
+  }
+  
+  .navbar-item {
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -43,10 +43,11 @@
     margin-bottom: 10px;
     padding-left: 3vw;
     font-weight: bold;
-}
-  
-.arrow {
+  }
+    
+  .arrow {
     position: absolute;
     font-family: 'Courier New', Courier, monospace;
     white-space: nowrap;
-}
+  }
+  
