@@ -1,15 +1,16 @@
 import React from 'react';
-import TypingText from '../components/TypingText';
+import '../styles/About.css';
+import TypingText from '../components/TypingText.js';
+import { getAsciiArt } from '../components/AsciiWords.js';
 
 const About = () => {
-  const elements = [
-    <p>This is the About section.</p>,
-    <p>Learn more about us here.</p>,
-  ];
-
   return (
     <div>
-      <TypingText elements={elements} />
+      <TypingText>
+        <p className='cutie'>Hello, my name is</p>
+        <div className="ascii-art">{getAsciiArt('Garrett Strange')}</div>
+        <p>Welcome to my portfolio!</p>
+      </TypingText>
     </div>
   );
 };

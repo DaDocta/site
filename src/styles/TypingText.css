@@ -1,0 +1,26 @@
+.typing-text-line {
+  position: relative;
+}
+
+.typing-text {
+  position: relative;
+}
+
+.cursor {
+  display: inline-block;
+  background-color: black;
+  width: 10px;
+  height: 20px;
+  margin-left: 2px;
+  animation: blink 1s step-end infinite;
+  vertical-align: bottom;
+}
+
+@keyframes blink {
+  from, to {
+    background-color: transparent;
+  }
+  50% {
+    background-color: green;
+  }
+}
