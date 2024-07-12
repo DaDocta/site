@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/TypingText.css'; // Ensure you have the correct path to your CSS file
 
-const TypingTextSecond = ({ children, duration = 3000 }) => {
+const TypingText = ({ children, duration = 3000 }) => {
   const [currentLine, setCurrentLine] = useState(-1);
 
   const makeInvisible = (element) => {
@@ -52,4 +52,4 @@ const TypingTextSecond = ({ children, duration = 3000 }) => {
   );
 };
 
-export default TypingTextSecond;
+export default TypingText;

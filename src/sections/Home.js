@@ -9,7 +9,7 @@ const Home = () => {
       <TypingText>
         <p className='cutie'>Hello, my name is</p>
         <div className="ascii-art">{getAsciiArt('Garrett Strange')}</div>
-        <p>Welcome to my portfolio!</p>
+        <p className='bet'>Welcome to my portfolio!</p>
       </TypingText>
     </div>
   );
