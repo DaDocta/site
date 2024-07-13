@@ -1,50 +1,56 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import '../styles/TypingText.css'; // Ensure you have the correct path to your CSS file
 
-const TypingTextSecond = ({ children, duration = 2000 }) => {
-  const makeInvisible = (element) => {
-    if (element && element.style) {
-      element.style.clipPath = 'inset(0 100% 0 0)';
-    }
-  };
+const TypingText = ({ children }) => {
+  var originalText = [];
 
-  const makeVisible = (element) => {
-    return new Promise((resolve) => {
-      if (element && element.style) {
-        element.style.transition = `clip-path ${duration}ms linear`;
-        element.style.clipPath = 'inset(0 0 0 0)';
-        setTimeout(() => {
-          resolve();
-        }, duration);
+  const makeInvisible = () => {
+    console.log('Making elements invisible');
+    const elements = document.querySelectorAll('.typing-text *');
+    elements.forEach((element, index) => {
+      console.log(element.textContent);
+      if (element.textContent) {
+        originalText.push(element.textContent);
+        element.textContent = ' ';
+        
+      } else {
+        originalText.push('');;
+        element.style.visibility = 'hidden';
       }
     });
   };
 
-  const processLines = async (lines) => {
-    for (let i = 0; i < lines.length; i++) {
-      await makeVisible(lines[i]);
-    }
+  const makeVisible = () => {
+    console.log('Making elements visible');
+    console.log(originalText);
+    const elements = document.querySelectorAll('.typing-text *');
+    elements.forEach((element, index) => {
+      if (element.textContent) {
+        element.textContent = originalText[index];
+      } else {
+        element.style.visibility = 'visible';
+      }
+    });
   };
 
   useEffect(() => {
-    const elements = document.querySelectorAll('.typing-text-line');
-    elements.forEach(makeInvisible);
-    
-    // Start making each line visible one at a time with a very short initial delay
-    setTimeout(() => {
-      processLines(elements);
-    }, 1);
-  }, [duration]);
+    // Set initial visibility to invisible
+    makeInvisible();
+
+    // Schedule makeVisible to run after 3 seconds
+    const timer = setTimeout(() => {
+      makeVisible();
+    }, 3000);
+
+    // Clean up the timer on component unmount
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    <div className="typing-text">
-      {React.Children.map(children, (child, index) => (
-        <div key={index} className="typing-text-line">
-          {child}
-        </div>
-      ))}
+    <div className='typing-text'>
+      {children}
     </div>
   );
 };
 
-export default TypingTextSecond;
+export default TypingText;
