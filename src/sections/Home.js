@@ -9,7 +9,7 @@ const Home = () => {
     <div>
       <TypingTextSecond>
         <p className='cutie'>Hello, my name is</p>
-        <div className="ascii-art">{getAsciiArt('Garrett Strange')}</div>
+        {getAsciiArt('Garrett Strange')}
         <p className='bet'>Welcome to my portfolio!</p>
         <img src={image}></img>
         <a href='https://www.google.com/'>Check</a>
