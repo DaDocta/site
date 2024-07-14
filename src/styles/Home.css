@@ -1,9 +1,13 @@
 .cutie {
     color: red;
-}
-
-.bet {
+  }
+  
+  .bet {
     color: blue;
-    white-space: pre-line;
-}
+  }
+  
+  .Garrett {
+    color: blue;
+    text-align: start;
+  }
   

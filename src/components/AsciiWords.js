@@ -1,17 +1,22 @@
+import React from 'react';
+import '../styles/AsciiWords.css';
+
 const garrettStrangeArt = 
-  "  _____                 __  __    ______                                " + "\n" +
-  " / ___/__ ____________ / /_/ /_  / __/ /________ ____  ___ ____         " + "\n" +
-  "/ (_\\/ _ `/ __/ __/ -_) __/ __/ _\\ \\/ __/ __/ _ `/ _ \\/ _ `/ -_)    " + "\n" +
-  "\\___/\\_,_/_/ /_/  \\__/\\__/\\__/ /___/\\__/_/  \\_,_/_//_/\\_, /\\__/" + "\n" +
-  "                                                      /__/              ";
+  String.raw`  _____                 __  __    ______                        ` + "\n" +
+  String.raw` / ___/__ ____________ / /_/ /_  / __/ /________ ____  ___ ____ ` + "\n" +
+  String.raw`/ (_\/ _ '/ __/ __/ -_) __/ __/ _\ \/ __/ __/ _ '/ _ \/ _ '/ -_)` + "\n" +
+  String.raw`\___/\_,_/_/ /_/  \__/\__/\__/ /___/\__/_/  \_,_/_//_/\_, /\__/ ` + "\n" +
+  String.raw`                                                      /__/      `
 
 const asciiArtDict = {
-  "Garrett Strange": [
-    <pre key="garrett-strange">{garrettStrangeArt}</pre>,
-  ],
+  "Garrett Strange": garrettStrangeArt,
   // https://patorjk.com/software/taag/#p=display&f=Small%20Slant&t=Garrett%20Strange
 };
 
-export const getAsciiArt = (key) => {
-  return asciiArtDict[key] || null;
+const AsciiWords = ({ keyName, className }) => {
+  return (
+    <pre className={"word " + className}>{asciiArtDict[keyName]}</pre>
+  );
 };
+
+export default AsciiWords;

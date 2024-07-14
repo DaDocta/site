@@ -1,11 +1,9 @@
 .typing-text .cursor {
-  display: inline-block;
-  width: 10px; /* Adjust width to your preference */
-  background-color: #00ff00; /* Set the cursor color to green */
+  width: .5em; /* Adjust width to your preference */
+  background-color: #000000; /* Set the cursor color to green */
   animation: blink 1s step-end infinite;
   margin-left: 2px; /* Adjust margin to your preference */
   height: 1em; /* Adjust height to match the font size */
-  vertical-align: bottom; /* Align cursor vertically */
 }
 
 @keyframes blink {

@@ -1,19 +1,16 @@
 import React from 'react';
 import '../styles/Home.css';
-import TypingTextSecond from '../components/TypingTextSecond.js';
-import { getAsciiArt } from '../components/AsciiWords.js';
-import image from '../assets/download.jpg';
+import TypingText from '../components/TypingText.js';
+import AsciiWords from '../components/AsciiWords.js';
+import imagine from '../assets/download.jpg';
 
 const Home = () => {
   return (
     <div>
-      <TypingTextSecond>
+      <TypingText delayTime={10}>
         <p className='cutie'>Hello, my name is</p>
-        {getAsciiArt('Garrett Strange')}
-        <p className='bet'>Welcome to my portfolio!</p>
-        <img src={image}></img>
-        <a href='https://www.google.com/'>Check</a>
-      </TypingTextSecond>
+        <AsciiWords keyName="Garrett Strange" className='Garrett'/>
+      </TypingText>
     </div>
   );
 };

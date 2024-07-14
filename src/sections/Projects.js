@@ -1,15 +1,15 @@
 import React from 'react';
-import TypingText from '../components/TypingText';
+import '../styles/Projects.css';
+import TypingText from '../components/TypingText.js';
+import AsciiWords from '../components/AsciiWords.js';
+import imagine from '../assets/download.jpg';
 
 const Projects = () => {
-  const elements = [
-    <p>These are some of my Projects.</p>,
-    <p>Check them out below.</p>,
-  ];
-
   return (
     <div>
-      <TypingText elements={elements} />
+      <TypingText>
+        <p>Projects</p>
+      </TypingText>
     </div>
   );
 };

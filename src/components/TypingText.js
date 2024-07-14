@@ -1,53 +1,100 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import '../styles/TypingText.css'; // Ensure you have the correct path to your CSS file
 
-const TypingText = ({ children, duration = 3000 }) => {
-  const [currentLine, setCurrentLine] = useState(-1);
+const TypingText = ({ children, delayTime = 30 }) => {
+  const originalText = useRef([]);
+  const elements = useRef([]);
+  const cursor = useRef(null);
 
-  const makeInvisible = (element) => {
-    if (element && element.style) {
-      element.style.clipPath = 'inset(0 100% 0 0)';
+  const makeInvisible = () => {
+    elements.current = document.querySelectorAll('.typing-text *:not(.cursor)');
+    elements.current.forEach((element, index) => {
+      originalText.current[index] = element.textContent;
+      if (element.textContent) {
+        element.textContent = '';
+      } else {
+        element.style.visibility = 'hidden';
+      }
+    });
+
+    // Move the cursor to the beginning element and add a █ character
+    if (elements.current.length > 0 && cursor.current) {
+      const firstElement = elements.current[0];
+      if (firstElement && firstElement.nodeType === Node.ELEMENT_NODE) {
+        firstElement.appendChild(cursor.current);
+      }
+      cursor.current.style.display = 'inline';
+    }
+
+    console.log('Original text after makeInvisible:', originalText.current);
+  };
+
+  const typeText = async () => {
+    console.log('Original text during typeText:', originalText.current);
+    for (let i = 0; i < elements.current.length; i++) {
+      const element = elements.current[i];
+      const text = originalText.current[i];
+      if (text) {
+        await typeLine(element, text, i);
+      } else {
+        element.style.visibility = 'visible';
+      }
+    }
+    // Move the cursor to the last element
+    if (elements.current.length > 0 && cursor.current) {
+      const lastElement = elements.current[elements.current.length - 1];
+      if (lastElement && lastElement.nodeType === Node.ELEMENT_NODE) {
+        if (!lastElement.contains(cursor.current)) {
+          lastElement.appendChild(cursor.current);
+        }
+        cursor.current.style.display = 'inline';
+      }
     }
   };
 
-  const makeVisible = (element) => {
+  const typeLine = (element, text, index) => {
     return new Promise((resolve) => {
-      if (element && element.style) {
-        element.style.transition = `clip-path ${duration}ms linear`;
-        element.style.clipPath = 'inset(0 0 0 0)';
-        setTimeout(() => {
+      let charIndex = 0;
+      const interval = setInterval(() => {
+        if (cursor.current && cursor.current.parentElement) {
+          cursor.current.parentElement.removeChild(cursor.current); // Remove cursor from the previous element
+        }
+        element.textContent += text.charAt(charIndex);
+        charIndex++;
+        if (charIndex < text.length) {
+          if (element && element.nodeType === Node.ELEMENT_NODE && cursor.current) {
+            if (!element.contains(cursor.current)) {
+              element.appendChild(cursor.current); // Append cursor to the element
+            }
+          }
+        }
+        if (charIndex >= text.length) {
+          clearInterval(interval);
           resolve();
-        }, duration);
-      }
+        }
+      }, delayTime); // Adjust typing speed here (milliseconds per character)
     });
   };
 
-  const processLines = async (lines) => {
-    for (let i = 0; i < lines.length; i++) {
-      setCurrentLine(i);
-      await makeVisible(lines[i]);
-    }
-    setCurrentLine(-1); // Hide cursor after all lines are processed
-  };
-
   useEffect(() => {
-    const elements = document.querySelectorAll('.typing-text-line');
-    elements.forEach(makeInvisible);
+    const timer1 = setTimeout(() => {
+      makeInvisible(); // Make text invisible immediately
+    }, 0);
 
-    // Start making each line visible one at a time with a very short initial delay
-    setTimeout(() => {
-      processLines(elements);
-    }, 1);
-  }, [duration]);
+    const timer2 = setTimeout(() => {
+      typeText(); // Start typing animation after a short delay
+    }, 1); // Adjust the delay here (milliseconds)
+
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+    };
+  }, []);
 
   return (
-    <div className="typing-text">
-      {React.Children.map(children, (child, index) => (
-        <div key={index} className="typing-text-line">
-          {child}
-          {/*{index === currentLine && <span className="cursor"></span>}*/}
-        </div>
-      ))}
+    <div className='typing-text'>
+      <span className="cursor" ref={cursor}>█</span>
+      {children}
     </div>
   );
 };

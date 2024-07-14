@@ -1,15 +1,14 @@
 import React from 'react';
 import '../styles/About.css';
 import TypingText from '../components/TypingText.js';
-import { getAsciiArt } from '../components/AsciiWords.js';
+import AsciiWords from '../components/AsciiWords.js';
+import imagine from '../assets/download.jpg';
 
 const About = () => {
   return (
     <div>
       <TypingText>
-        <p className='cutie'>Hello, my name is</p>
-        <div className="ascii-art">{getAsciiArt('Garrett Strange')}</div>
-        <p>Welcome to my portfolio!</p>
+        <p>About</p>
       </TypingText>
     </div>
   );

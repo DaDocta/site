@@ -1,0 +1,11 @@
+@media (orientation: landscape) {
+    .word {
+        font-size: 1.4vw; /* Size for landscape orientation */
+    }
+}
+
+@media (orientation: portrait) {
+    .word {
+        font-size: 2vw; /* Size for portrait orientation */
+    }
+}
