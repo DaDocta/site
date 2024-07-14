@@ -22,7 +22,28 @@ const Navbar = ({ selectedIndex, onSelect }) => {
 
   useEffect(() => {
     updateArrowPosition();
+
+    // Additional update to ensure correct positioning
+    setTimeout(() => {
+      updateArrowPosition();
+    }, 0);
+
+    // Resize observer to handle dynamic changes
+    const resizeObserver = new ResizeObserver(() => {
+      updateArrowPosition();
+    });
+
+    itemRefs.current.forEach(ref => {
+      if (ref.current) {
+        resizeObserver.observe(ref.current);
+      }
+    });
+
+    return () => {
+      resizeObserver.disconnect();
+    };
   }, [selectedIndex, updateArrowPosition]);
+
 
   const handleKeyDown = useCallback((event) => {
     if (event.key === 'ArrowDown') {
