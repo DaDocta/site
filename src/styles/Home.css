@@ -6,7 +6,7 @@
 
 .container {
   width: 100%;
-  margin-top: 30vh;
+  margin-top: 20vh;
   text-align: left; /* Ensure all text aligns to the left */
 }
 
@@ -18,6 +18,7 @@
 
 .greeting-text {
   margin: 0; /* Remove default margin */
+  font-size: 2vw;
 }
 
 .ascii-container {
@@ -28,10 +29,19 @@
 }
 
 .Garrett {
-  background: linear-gradient(90deg, #ff00ff, #00aaaa, red, orange, #ffffbb);
+  background: linear-gradient(90deg, #ff00ff, #00aaaa, red);
   -webkit-background-clip: text;
   color: transparent;
   text-align: left; /* Ensure text aligns to the left */
+  margin-right: 20%;
+}
+
+.Strange {
+  background: linear-gradient(90deg, red, orange, #ffffbb);
+  -webkit-background-clip: text;
+  color: transparent;
+  text-align: left; /* Ensure text aligns to the left */
+  margin-left: 20%;
 }
 
 .typing-text {

@@ -12,7 +12,10 @@ const Home = () => {
             <p className="greeting-text">Hello, my name is</p>
           </div>
           <div className="ascii-container">
-            <AsciiWords keyName="Garrett Strange" className="Garrett" />
+            <AsciiWords keyName="Garrett" className="Garrett" />
+          </div>
+          <div className="ascii-container">
+            <AsciiWords keyName="Strange" className="Strange" />
           </div>
         </TypingText>
       </div>
