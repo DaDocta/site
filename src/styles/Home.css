@@ -1,8 +1,43 @@
+.home {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}
+
+.container {
+  width: 100%;
+  margin-top: 30vh;
+  text-align: left; /* Ensure all text aligns to the left */
+}
+
+.text-container {
+  width: 100%; /* Ensure it takes the full width */
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+}
+
+.greeting-text {
+  margin: 0; /* Remove default margin */
+}
+
+.ascii-container {
+  width: 100%; /* Ensure it takes the full width */
+  display: flex;
+  justify-content: center; /* Center the ASCII art horizontally */
+  align-items: center;
+}
 
 .Garrett {
   background: linear-gradient(90deg, #ff00ff, #00aaaa, red, orange, #ffffbb);
   -webkit-background-clip: text;
   color: transparent;
   text-align: left; /* Ensure text aligns to the left */
-  align-self: center; /* Center the ASCII art within the container */
+}
+
+.typing-text {
+  position: relative; /* Ensure the cursor is positioned relative to this element */
+}
+
+.cursor {
+  position: absolute; /* Position the cursor absolutely within the typing-text */
 }
