@@ -7,7 +7,7 @@
   }
   
   .Garrett {
-    color: blue;
-    text-align: start;
-  }
-  
+    background: linear-gradient(90deg, #ff00ff, #00aaaa, red, orange, #ffffbb);
+    -webkit-background-clip: text;
+    color: transparent;
+}

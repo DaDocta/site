@@ -11,7 +11,9 @@ const Navbar = ({ selectedIndex, onSelect }) => {
     if (currentRef && currentRef.current) {
       const itemStyle = window.getComputedStyle(currentRef.current);
       const itemHeight = currentRef.current.getBoundingClientRect().height;
+      console.log(itemHeight);
       const arrowHeight = arrowRef.current ? arrowRef.current.clientHeight : 0;
+      console.log(arrowHeight);
       const topPosition = currentRef.current.offsetTop + itemHeight / 2 - arrowHeight / 2;
       arrowRef.current.style.top = `${topPosition}px`;
       arrowRef.current.style.fontSize = itemStyle.fontSize; // Ensure arrow font size matches

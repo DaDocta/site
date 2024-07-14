@@ -75,17 +75,17 @@ const TypingText = ({ children, delayTime = 30 }) => {
   };
 
   useEffect(() => {
-    /*const atimer = setTimeout(() => {
+    const atimer = setTimeout(() => {
       makeInvisible();
     }, 0);
-    */
-    makeInvisible();
+    
+    //makeInvisible();
     const timer = setTimeout(() => {
       typeText();
     }, 1);
 
     return () => {
-      //clearTimeout(atimer);
+      clearTimeout(atimer);
       clearTimeout(timer);
     };
   }, []);
