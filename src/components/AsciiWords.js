@@ -6,7 +6,7 @@ const garrettStrangeArt =
   String.raw` / ___/__ ____________ / /_/ /_  / __/ /________ ____  ___ ____ ` + "\n" +
   String.raw`/ (_\/ _ '/ __/ __/ -_) __/ __/ _\ \/ __/ __/ _ '/ _ \/ _ '/ -_)` + "\n" +
   String.raw`\___/\_,_/_/ /_/  \__/\__/\__/ /___/\__/_/  \_,_/_//_/\_, /\__/ ` + "\n" +
-  String.raw`                                                      /__/      `
+  String.raw`                                                      /__/      `;
 
 const asciiArtDict = {
   "Garrett Strange": garrettStrangeArt,

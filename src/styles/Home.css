@@ -1,13 +1,8 @@
-.cutie {
-    color: red;
-  }
-  
-  .bet {
-    color: blue;
-  }
-  
-  .Garrett {
-    background: linear-gradient(90deg, #ff00ff, #00aaaa, red, orange, #ffffbb);
-    -webkit-background-clip: text;
-    color: transparent;
+
+.Garrett {
+  background: linear-gradient(90deg, #ff00ff, #00aaaa, red, orange, #ffffbb);
+  -webkit-background-clip: text;
+  color: transparent;
+  text-align: left; /* Ensure text aligns to the left */
+  align-self: center; /* Center the ASCII art within the container */
 }
