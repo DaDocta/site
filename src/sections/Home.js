@@ -8,7 +8,7 @@ const Home = () => {
   return (
     <div>
       <TypingText delayTime={10}>
-        <p className='cutie'>Hello, my name is</p>
+        <p>Hello, my name is</p>
         <AsciiWords keyName="Garrett Strange" className='Garrett'/>
       </TypingText>
     </div>

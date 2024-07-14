@@ -24,12 +24,11 @@ const TypingText = ({ children, delayTime = 30 }) => {
       }
       cursor.current.style.display = 'inline';
     }
-
-    console.log('Original text after makeInvisible:', originalText.current);
+    //console.log('Original text after makeInvisible:', originalText.current);
   };
 
   const typeText = async () => {
-    console.log('Original text during typeText:', originalText.current);
+    //console.log('Original text during typeText:', originalText.current);
     for (let i = 0; i < elements.current.length; i++) {
       const element = elements.current[i];
       const text = originalText.current[i];
