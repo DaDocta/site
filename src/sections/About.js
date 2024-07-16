@@ -30,7 +30,7 @@ const About = () => {
     if (typingDone) {
       const interval = setInterval(() => {
         setIndex(prevIndex => (prevIndex + 1) % conceptsList1.length);
-      }, 3000); // Change item every 3 seconds
+      }, 2000); // Change item every 3 seconds
 
       return () => clearInterval(interval);
     }

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import '../styles/TypingText.css';
 
-const TypingText = ({ children, delayTime = 30 }) => {
+  const TypingText = ({ children, delayTime = 30, onTypingDone = () => {} }) => {
   const originalText = useRef(new Map());
   const elements = useRef([]);
   const cursor = useRef(null);
@@ -35,16 +35,18 @@ const TypingText = ({ children, delayTime = 30 }) => {
     }
   
     if (element.nodeType === Node.ELEMENT_NODE) {
+      if (!element.textContent) {
+        handleNonTextElement(element);
+        };
       Array.from(element.childNodes).forEach(child => {
-        if (child.nodeType === Node.TEXT_NODE || (child.nodeType === Node.ELEMENT_NODE && child.tagName === 'SPAN')) {
+        if (child.nodeType === Node.TEXT_NODE) {
           const textContent = child.textContent;
           if (textContent) {
             originalText.current.set(child, textContent);
             child.textContent = '';
             elements.current.push(child);
           } else {
-            child.style.visibility = 'hidden';
-            elements.current.push(child);
+            handleNonTextElement(child);
           }
         } else if (child.nodeType === Node.ELEMENT_NODE) {
           traverseAndProcess(child);
@@ -78,7 +80,7 @@ const TypingText = ({ children, delayTime = 30 }) => {
 
   const setInitialCursor = () => {
     if (elements.current.length > 0 && cursor.current) {
-      const firstElement = elements.current[0];
+      const firstElement = elements.current[0].parentElement;
       if (firstElement && firstElement.nodeType === Node.ELEMENT_NODE) {
         if (!firstElement.contains(cursor.current)) {
           firstElement.appendChild(cursor.current);
@@ -90,7 +92,7 @@ const TypingText = ({ children, delayTime = 30 }) => {
 
   const setFinalCursor = () => {
     if (elements.current.length > 0 && cursor.current) {
-      const lastElement = elements.current[elements.current.length - 1];
+      const lastElement = elements.current[elements.current.length - 1].parentElement;
       if (lastElement && lastElement.nodeType === Node.ELEMENT_NODE) {
         if (!lastElement.contains(cursor.current)) {
           lastElement.appendChild(cursor.current);
@@ -120,6 +122,7 @@ const TypingText = ({ children, delayTime = 30 }) => {
     }
     if (cursor.current) {cursor.current.classList.remove('typing');}
     setFinalCursor();
+    if (onTypingDone) { onTypingDone();}
   };
 
   const typeCharacter = (element, text, charIndex) => {
@@ -127,7 +130,6 @@ const TypingText = ({ children, delayTime = 30 }) => {
   };
   
   const addCursor = (element) => {
-    console.log(element);
     if (cursor.current) {
       if (!element.contains(cursor.current)) {
         if (element.tagName === 'SPAN') {
