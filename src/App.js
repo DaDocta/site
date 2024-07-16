@@ -4,8 +4,9 @@ import UpButton from './components/UpButton';
 import DownButton from './components/DownButton';
 import Home from './sections/Home';
 import About from './sections/About';
-import Experience from './sections/Experience';
 import Projects from './sections/Projects';
+import Partnerships from './sections/Partnerships';
+import Contact from './sections/Contact';
 import Loading from './sections/Loading'; // Ensure this is the correct path to Loading component
 import './styles/App.css';
 import './styles/Loading.css';
@@ -16,7 +17,7 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [colorIndex, setColorIndex] = useState(0);
   const loadingTimeout = useRef(null); // Use ref to store timeout ID
-  const menuItems = ['Home', 'About', 'Experience', 'Projects'];
+  const menuItems = ['Home', 'About', 'Projects', 'Partnerships', 'Contact'];
 
   const handleResize = () => {
     const isPortrait = window.innerHeight > window.innerWidth;
@@ -101,10 +102,12 @@ const App = () => {
         return <Home />;
       case 'About':
         return <About />;
-      case 'Experience':
-        return <Experience />;
       case 'Projects':
         return <Projects />;
+      case 'Partnerships':
+        return <Partnerships />;
+      case 'Contact':
+        return <Contact />;
       default:
         return <Home />;
     }

@@ -1,22 +1,26 @@
-.about {
-    height: 100%;
-  }
+.about {}
   
 .container {
-width: 100%;
-text-align: left; /* Ensure all text aligns to the left */
+    width: 100%;
+    text-align: left; /* Ensure all text aligns to the left */
 }
 
-
-@media (orientation: landscape) {
-.greeting-text {
-    font-size: 2vw;
-}
+.UK {
+    font-weight: bold;
+    color: #1c379e;
 }
 
-@media (orientation: portrait) {
-p {
-    font-size: 4vw;
+.year {
+    font-weight: bold;
+    color: rgb(255, 85, 0);
 }
+
+.concept {
+    font-weight: bolder;
+    color: darkgreen;
+
 }
-  
+
+@media (orientation: landscape) {}
+    
+@media (orientation: portrait) {}

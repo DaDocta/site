@@ -29,3 +29,15 @@ body, html {
   height: 80vh; /* Adjusted height for portrait section */
   padding: 20px;
 }
+
+@media (orientation: landscape) {
+  .landscape-section {
+    font-size: 2vw;
+  }
+}
+  
+@media (orientation: portrait) {
+  .portrait-section {
+    font-size: 4vw;
+  }
+}

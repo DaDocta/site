@@ -19,12 +19,12 @@ const Navbar = ({ selectedIndex, onSelect, colorIndex, onColorChange, menuItems 
       const itemHeight = currentRef.current.getBoundingClientRect().height;
       const arrowHeight = arrowRef.current ? arrowRef.current.clientHeight : 0;
       const topPosition = currentRef.current.offsetTop + itemHeight / 2 - arrowHeight / 2;
-      const leftPosition = currentRef.current.offsetLeft - 20; // Adjust the offset for the arrow
+      const leftPosition = currentRef.current.offsetLeft; // Adjust the offset for the arrow
       arrowRef.current.style.top = `${topPosition}px`;
       arrowRef.current.style.left = `${leftPosition}px`; // Set the left position of the arrow
       arrowRef.current.style.fontSize = itemStyle.fontSize; // Ensure arrow font size matches
     }
-  }, [selectedIndex]);
+  }, [selectedIndex, menuItems.length]);
 
   useEffect(() => {
     updateArrowPosition();

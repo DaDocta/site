@@ -7,7 +7,7 @@ const Home = () => {
   return (
     <div className="home">
       <div className="container">
-        <TypingText delayTime={30}>
+        <TypingText delayTime={20}>
           <div className="text-container">
             <p className="greeting-text">Hello, my name is</p>
           </div>

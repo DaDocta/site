@@ -32,17 +32,17 @@
 
   .color-slider {
     margin-bottom: 20px;
-    width: 10vw; /* Adjust width as needed */
     appearance: none;
     outline: none;
     border: 1px solid var(--main-color);
-    height: 1vw;
+    width: 16vw; /* Adjust width as needed */
+    height: 2vw;
   }
 
   .color-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 1.5vw;
-    height: 1.5vw;
+    width: 3vw;
+    height: 3vw;
     background: var(--main-color);
   }
   

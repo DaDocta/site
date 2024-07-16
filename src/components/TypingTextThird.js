@@ -6,32 +6,77 @@ const TypingText = ({ children, delayTime = 30 }) => {
   const elements = useRef([]);
   const cursor = useRef(null);
 
-  const traverseAndProcess = (element) => {
-    if (element.nodeType === Node.TEXT_NODE) {
-      return;
-    }
+  const handleTextElement = (element) => {
+    originalText.current.set(element, element.textContent);
+    element.textContent = '';
+    elements.current.push(element)
+  }
 
+  const handleNonTextElement = (element) => {
+    element.style.visibility = 'hidden';
+    elements.current.push(element);
+  };
+
+  const traverseAndProcess1 = (element) => {
     if (element.nodeType === Node.ELEMENT_NODE) {
-      const textContent = element.textContent;
-      if (textContent && element.tagName !== 'DIV') {
-        originalText.current.set(element, textContent);
-        element.innerHTML = '';
-        elements.current.push(element);
-        console.log('Original:', originalText);
-      }
-      else if (!textContent) {
-        element.style.visibility = 'hidden';
-        elements.current.push(element);
+      if (element.textContent && element.tagName !== 'DIV') {
+        handleTextElement(element);
+      } else if (!element.textContent) {
+        handleNonTextElement(element);
       } else {
         Array.from(element.childNodes).forEach(child => traverseAndProcess(child));
       }
     }
   };
 
-  const makeInvisible = () => {
-    const rootElement = document.querySelector('.typing-text');
-    traverseAndProcess(rootElement);
+  const traverseAndProcess = (element) => {
+    if (element.nodeType === Node.TEXT_NODE) {
+      return;
+    }
+  
+    if (element.nodeType === Node.ELEMENT_NODE) {
+      Array.from(element.childNodes).forEach(child => {
+        if (child.nodeType === Node.TEXT_NODE || (child.nodeType === Node.ELEMENT_NODE && child.tagName === 'SPAN')) {
+          const textContent = child.textContent;
+          if (textContent) {
+            originalText.current.set(child, textContent);
+            child.textContent = '';
+            elements.current.push(child);
+          } else {
+            child.style.visibility = 'hidden';
+            elements.current.push(child);
+          }
+        } else if (child.nodeType === Node.ELEMENT_NODE) {
+          traverseAndProcess(child);
+        }
+      });
+    }
+  };
 
+  const traverseAndProcess3 = (element) => {
+    if (element.nodeType === Node.ELEMENT_NODE) {
+      if (element.tagName === 'P') {
+        Array.from(element.childNodes).forEach(child => {
+          if (child.nodeType === Node.ELEMENT_NODE && child.tagName === 'SPAN' && !child.classList.contains('cursor')) {
+            handleTextElement(child);
+          }
+        });
+      }
+    if (element.textContent && element.tagName !== 'DIV') {
+      handleTextElement(element);
+    } else if (!element.textContent) {
+      handleNonTextElement(element);
+    } else {
+      Array.from(element.childNodes).forEach(child => traverseAndProcess(child));
+    }
+      
+    }
+  };
+
+  
+
+
+  const setInitialCursor = () => {
     if (elements.current.length > 0 && cursor.current) {
       const firstElement = elements.current[0];
       if (firstElement && firstElement.nodeType === Node.ELEMENT_NODE) {
@@ -41,22 +86,9 @@ const TypingText = ({ children, delayTime = 30 }) => {
       }
       cursor.current.style.display = 'inline';
     }
-
-    console.log('Original text after makeInvisible:', originalText.current);
   };
 
-  const typeText = async () => {
-    if (cursor.current) {cursor.current.classList.add('typing');}
-    for (let i = 0; i < elements.current.length; i++) {
-      const element = elements.current[i];
-      const text = originalText.current.get(element);
-      if (text) {
-        await typeLine(element, text);
-      } else {
-        element.style.visibility = 'visible';
-      }
-    }
-    if (cursor.current) {cursor.current.classList.remove('typing');}
+  const setFinalCursor = () => {
     if (elements.current.length > 0 && cursor.current) {
       const lastElement = elements.current[elements.current.length - 1];
       if (lastElement && lastElement.nodeType === Node.ELEMENT_NODE) {
@@ -68,29 +100,72 @@ const TypingText = ({ children, delayTime = 30 }) => {
     }
   };
 
+  const makeInvisible = () => {
+    const rootElement = document.querySelector('.typing-text');
+    traverseAndProcess(rootElement);
+    setInitialCursor();
+    /*console.log('Original text after makeInvisible:', originalText.current);*/
+  };
+
+
+  const typeText = async () => {
+    if (cursor.current) {cursor.current.classList.add('typing');}
+    for (let i = 0; i < elements.current.length; i++) {
+      const text = originalText.current.get(elements.current[i]);
+      if (text) {
+        await typeLine(elements.current[i], text);
+      } else {
+        elements.current[i].style.visibility = 'visible';
+      }
+    }
+    if (cursor.current) {cursor.current.classList.remove('typing');}
+    setFinalCursor();
+  };
+
+  const typeCharacter = (element, text, charIndex) => {
+    element.textContent += text.charAt(charIndex);
+  };
+  
+  const addCursor = (element) => {
+    console.log(element);
+    if (cursor.current) {
+      if (!element.contains(cursor.current)) {
+        if (element.tagName === 'SPAN') {
+        element.appendChild(cursor.current);
+        }
+        else {
+          element.parentElement.appendChild(cursor.current);
+        }
+      }
+    }
+  };
+
+  const removeCursor = () => {
+    if (cursor.current && cursor.current.parentElement) {
+      cursor.current.parentElement.removeChild(cursor.current);
+    }
+  };
+
+  const checkSpan = (element) => {};
+  
   const typeLine = (element, text) => {
     return new Promise((resolve) => {
       let charIndex = 0;
       const interval = setInterval(() => {
-        if (cursor.current && cursor.current.parentElement) {
-          cursor.current.parentElement.removeChild(cursor.current);
-        }
-        element.textContent += text.charAt(charIndex);
+        removeCursor();
+        typeCharacter(element, text, charIndex);
         charIndex++;
         if (charIndex < text.length) {
-          if (element && element.nodeType === Node.ELEMENT_NODE && cursor.current) {
-            if (!element.contains(cursor.current)) {
-              element.appendChild(cursor.current);
-            }
-          }
+          addCursor(element);
         }
-        if (charIndex >= text.length) {
+        else {
           clearInterval(interval);
           resolve();
         }
       }, delayTime);
     });
   };
+  
 
   useEffect(() => {
     const atimer = setTimeout(() => {

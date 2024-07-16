@@ -1,12 +1,10 @@
 .home {
   display: flex;
   justify-content: center;
-  height: 100%;
 }
 
 .container {
   width: 100%;
-  margin-top: 20vh;
   text-align: left; /* Ensure all text aligns to the left */
 }
 
@@ -21,9 +19,9 @@
 }
 
 .ascii-container {
-  width: 100%;
+  width: 100%; /* Ensure it takes the full width */
   display: flex;
-  justify-content: center;
+  justify-content: center; /* Center the ASCII art horizontally */
   align-items: center;
 }
 
@@ -44,13 +42,13 @@
 }
 
 @media (orientation: landscape) {
-  p {
-    font-size: 2vw;
+  .container {
+    margin-top: 8vw;
   }
 }
 
 @media (orientation: portrait) {
-  p {
-    font-size: 4vw;
+  .container {
+    margin-top: 20vh;
   }
 }

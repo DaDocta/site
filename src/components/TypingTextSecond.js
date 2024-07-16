@@ -10,43 +10,28 @@ const TypingText = ({ children, delayTime = 30 }) => {
     if (element.nodeType === Node.TEXT_NODE) {
       return;
     }
-
+  
     if (element.nodeType === Node.ELEMENT_NODE) {
-      if (element.nodeName.toLowerCase() === 'pre') {
-        const textContent = element.innerText;
-        //console.log('Text content from <pre> element:', textContent);
-        if (textContent) {
-          originalText.current.set(element, textContent);
-          //console.log(`Mapping <pre>: ${textContent}`);
-          element.innerHTML = '';
-          elements.current.push(element);
-        }
-      } else if (element.classList.contains('ascii-wrapper')) {
-        const preElement = element.querySelector('pre');
-        if (preElement) {
-          const textContent = preElement.innerText;
-          //console.log('Text content from <pre> inside .ascii-wrapper:', textContent);
+      Array.from(element.childNodes).forEach(child => {
+        if (child.nodeType === Node.TEXT_NODE || (child.nodeType === Node.ELEMENT_NODE && child.tagName === 'SPAN')) {
+          const textContent = child.textContent;
           if (textContent) {
-            originalText.current.set(preElement, textContent);
-            //console.log(`Mapping <pre> inside .ascii-wrapper: ${textContent}`);
-            preElement.innerHTML = '';
-            elements.current.push(preElement);
+            originalText.current.set(child, textContent);
+            child.textContent = '';
+            elements.current.push(child);
+          } else {
+            child.style.visibility = 'hidden';
+            elements.current.push(child);
           }
+        } else if (child.nodeType === Node.ELEMENT_NODE) {
+          traverseAndProcess(child);
         }
-      } else if (element.nodeName.toLowerCase() === 'p') {
-        const textContent = element.innerText || element.textContent;
-        //console.log('Text content from <p> element:', textContent);
-        if (textContent) {
-          originalText.current.set(element, textContent);
-          //console.log(`Mapping <p>: ${textContent}`);
-          element.innerHTML = '';
-          elements.current.push(element);
-        }
-      } else {
-        Array.from(element.childNodes).forEach(child => traverseAndProcess(child));
-      }
+      });
     }
   };
+  
+
+
 
   const makeInvisible = () => {
     const rootElement = document.querySelector('.typing-text');
@@ -55,15 +40,23 @@ const TypingText = ({ children, delayTime = 30 }) => {
     if (elements.current.length > 0 && cursor.current) {
       const firstElement = elements.current[0];
       if (firstElement && firstElement.nodeType === Node.ELEMENT_NODE) {
-        firstElement.appendChild(cursor.current);
+        if (!firstElement.contains(cursor.current)) {
+          firstElement.appendChild(cursor.current);
+        }
       }
       cursor.current.style.display = 'inline';
     }
 
     console.log('Original text after makeInvisible:', originalText.current);
+    console.log('Elements:', elements.current);
+    console.log('Cursor:', cursor.current);
   };
 
   const typeText = async () => {
+    if (cursor.current) {
+      cursor.current.classList.add('typing');
+      console.log('Cursor added typing class:', cursor.current);
+    }
     for (let i = 0; i < elements.current.length; i++) {
       const element = elements.current[i];
       const text = originalText.current.get(element);
@@ -73,6 +66,10 @@ const TypingText = ({ children, delayTime = 30 }) => {
         element.style.visibility = 'visible';
       }
     }
+    if (cursor.current) {
+      cursor.current.classList.remove('typing');
+      console.log('Cursor removed typing class:', cursor.current);
+    }
     if (elements.current.length > 0 && cursor.current) {
       const lastElement = elements.current[elements.current.length - 1];
       if (lastElement && lastElement.nodeType === Node.ELEMENT_NODE) {
@@ -80,6 +77,7 @@ const TypingText = ({ children, delayTime = 30 }) => {
           lastElement.appendChild(cursor.current);
         }
         cursor.current.style.display = 'inline';
+        console.log('Cursor appended to last element:', lastElement);
       }
     }
   };
@@ -98,6 +96,7 @@ const TypingText = ({ children, delayTime = 30 }) => {
             if (!element.contains(cursor.current)) {
               element.appendChild(cursor.current);
             }
+            console.log('Cursor appended during typing:', cursor.current);
           }
         }
         if (charIndex >= text.length) {
