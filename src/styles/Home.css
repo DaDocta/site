@@ -17,14 +17,13 @@
 }
 
 .greeting-text {
-  margin: 0; /* Remove default margin */
-  font-size: 2vw;
+  margin: 0;
 }
 
 .ascii-container {
-  width: 100%; /* Ensure it takes the full width */
+  width: 100%;
   display: flex;
-  justify-content: center; /* Center the ASCII art horizontally */
+  justify-content: center;
   align-items: center;
 }
 
@@ -44,10 +43,14 @@
   margin-left: 20%;
 }
 
-.typing-text {
-  position: relative; /* Ensure the cursor is positioned relative to this element */
+@media (orientation: landscape) {
+  p {
+    font-size: 2vw;
+  }
 }
 
-.cursor {
-  position: absolute; /* Position the cursor absolutely within the typing-text */
+@media (orientation: portrait) {
+  p {
+    font-size: 4vw;
+  }
 }

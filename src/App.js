@@ -14,6 +14,7 @@ const App = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isPortrait, setIsPortrait] = useState(window.innerHeight > window.innerWidth);
   const [isLoading, setIsLoading] = useState(false);
+  const [colorIndex, setColorIndex] = useState(0);
   const loadingTimeout = useRef(null); // Use ref to store timeout ID
   const menuItems = ['Home', 'About', 'Experience', 'Projects'];
 
@@ -51,6 +52,20 @@ const App = () => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
+
+  useEffect(() => {
+    document.documentElement.style.setProperty('--main-color', getColor(colorIndex));
+  }, [colorIndex]);
+
+  const getColor = (index) => {
+    const colors = [
+      'rgb(0, 255, 0)',   // Green
+      'rgb(255, 0, 255)', // Pink
+      'rgb(255, 255, 0)', // Yellow
+      'rgb(0, 255, 255)', // Cyan
+    ];
+    return colors[index];
+  };
 
   const setNewIndex = (newIndex) => {
     if (loadingTimeout.current) {
@@ -95,6 +110,11 @@ const App = () => {
     }
   };
 
+  const handleColorChange = (event) => {
+    const newIndex = parseInt(event.target.value, 10);
+    setColorIndex(newIndex);
+  };
+
   return (
     <>
       {isPortrait ? (
@@ -105,7 +125,13 @@ const App = () => {
         </div>
       ) : (
         <div className='landscape'>
-          <Navbar selectedIndex={selectedIndex} onSelect={handleNavSelect} />
+          <Navbar 
+            selectedIndex={selectedIndex} 
+            onSelect={handleNavSelect} 
+            colorIndex={colorIndex} 
+            onColorChange={handleColorChange}
+            menuItems={menuItems}
+          />
           <div className="landscape-section">{renderSection()}</div>
         </div>
       )}

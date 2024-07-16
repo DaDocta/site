@@ -1,11 +1,19 @@
 /* src/index.css */
-* {
-  color: rgb(0, 255, 0);
-  font-family: 'Courier New', Courier, monospace;
+:root {
+  --main-color: rgb(0, 255, 0); /* Initial main color */
 }
 
-/* src/index.css */
-body {
-  margin: 0;
+* {
+  color: var(--main-color);
+  font-family: 'Courier New', Courier, monospace;
   background-color: black;
+  /*animation: colorChange 4s infinite;*/
+  /*transition: color 2s;*/
 }
+
+.background-change {
+  background-color: var(--main-color);
+  animation: colorChange 4s infinite;
+  /*transition: background-color 2s;*/
+}
+

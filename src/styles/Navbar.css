@@ -1,15 +1,17 @@
 /* src/styles/Navbar.css */
 
 .navbar {
-    width: 33%;
-    height: 100vh;
-    background-color: #000;
-    color: rgb(0, 255, 0);
-    align-items: center;
-    position: relative;
-    font-family: 'Courier New', Courier, monospace;
-    outline: none; /* Remove the default focus outline */
-  }
+  width: 33%;
+  height: 100%;
+  background-color: #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center items vertically */
+  align-items: center; /* Center items horizontally */
+  position: relative;
+  font-family: 'Courier New', Courier, monospace;
+  outline: none; /* Remove the default focus outline */
+}  
   
   .navbar::after {
     content: '';
@@ -20,10 +22,28 @@
     height: 100%;
     background: linear-gradient(
       to bottom,
-      rgb(0, 255, 0) 50%,
+      var(--main-color) 50%,
       transparent 50%
     );
-    background-size: 2px 20px; /* Dash width and space */
+    background-size: 2px 20px;
+    /*background-color: var(--main-color);*/
+    /*transition: inherit;*/
+  }
+
+  .color-slider {
+    margin-bottom: 20px;
+    width: 10vw; /* Adjust width as needed */
+    appearance: none;
+    outline: none;
+    border: 1px solid var(--main-color);
+    height: 1vw;
+  }
+
+  .color-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 1.5vw;
+    height: 1.5vw;
+    background: var(--main-color);
   }
   
   .title {

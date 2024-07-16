@@ -1,4 +1,4 @@
-.typing-text .cursor {
+.cursor {
   width: .5em;
   background-color: #000000; /* none */
   animation: blink 1s step-end infinite;

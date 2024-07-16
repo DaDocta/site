@@ -29,7 +29,7 @@ const TypingText = ({ children, delayTime = 30 }) => {
   };
 
   const makeInvisible = () => {
-    const rootElement = document.querySelector('.typing-text'); //*:not(.cursor)
+    const rootElement = document.querySelector('.typing-text');
     traverseAndProcess(rootElement);
 
     if (elements.current.length > 0 && cursor.current) {
@@ -46,6 +46,7 @@ const TypingText = ({ children, delayTime = 30 }) => {
   };
 
   const typeText = async () => {
+    if (cursor.current) {cursor.current.classList.add('typing');}
     for (let i = 0; i < elements.current.length; i++) {
       const element = elements.current[i];
       const text = originalText.current.get(element);
@@ -55,6 +56,7 @@ const TypingText = ({ children, delayTime = 30 }) => {
         element.style.visibility = 'visible';
       }
     }
+    if (cursor.current) {cursor.current.classList.remove('typing');}
     if (elements.current.length > 0 && cursor.current) {
       const lastElement = elements.current[elements.current.length - 1];
       if (lastElement && lastElement.nodeType === Node.ELEMENT_NODE) {
