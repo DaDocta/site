@@ -112,6 +112,10 @@ const App = () => {
     setNewIndex((prevIndex) => (prevIndex + 1) % menuItems.length);
   };
 
+  const navigateToSection = (sectionName) => {
+    setNewIndex(menuItems.indexOf(sectionName));
+  };
+
   const navigateToPreviousSection = () => {
     setNewIndex((prevIndex) => (prevIndex - 1 + menuItems.length) % menuItems.length);
   };
@@ -134,7 +138,7 @@ const App = () => {
       case 'Projects':
         return <Projects />;
       case 'Partnerships':
-        return <Partnerships />;
+        return <Partnerships navigateToSection={navigateToSection} />;
       case 'Contact':
         return <Contact />;
       default:

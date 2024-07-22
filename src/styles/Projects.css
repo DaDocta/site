@@ -1,3 +1,39 @@
-@media (orientation: landscape) {}
+.projects {}
+
+.container {
+    width: 100%;
+    text-align: left;
+}
+
+.projectName {
+    font-weight: bolder;
+    animation: projectNameColor 4s infinite;
+    transition: color 2s;
+}
+
+@media (orientation: landscape) {
+    .projects {
+        margin-top: 6vw;
+    }
+}
     
-@media (orientation: portrait) {}
+@media (orientation: portrait) {
+    .projects {
+        margin-top: 0vh;
+    }
+}
+
+@keyframes projectNameColor {
+    0%, 100% {
+        color: #ffccff;
+    }
+    25% {
+        color: #ffffcc;
+    }
+    50% {
+        color: #ccffff;
+    }
+    75% {
+        color: #ccffcc;
+    }
+}

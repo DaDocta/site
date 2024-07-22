@@ -23,13 +23,13 @@
 
 
 @media (orientation: landscape) {
-    .about {
-        margin-top: 4vw;
+    .contact {
+        margin-top: 6vw;
     }
 }
     
 @media (orientation: portrait) {
-    .about {
+    .contact {
         margin-top: 0vh;
     }
 }

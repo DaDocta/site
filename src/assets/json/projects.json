@@ -1,0 +1,22 @@
+[
+    {
+      "name": "Read Aloud",
+      "description": "Why not have Windows read what you highlight?",
+      "progress": 92
+    },
+    {
+      "name": "A.D.A.M.",
+      "description": "Audio Decypther And Manager.",
+      "progress": 76
+    },
+    {
+      "name": "Legacy Device",
+      "description": "Now you can work on your computer even when six feet under.",
+      "progress": 34
+    },
+    {
+      "name": "The 'Gossipel'",
+      "description": "A website dedicated to having everyone hear the good news!",
+      "progress": 12
+    }
+  ]

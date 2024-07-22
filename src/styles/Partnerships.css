@@ -1,3 +1,20 @@
-@media (orientation: landscape) {}
-    
-@media (orientation: portrait) {}
+.partnerships {}
+
+.connect {
+font-weight: bolder;
+text-decoration: none;
+cursor: pointer;
+}
+
+
+@media (orientation: landscape) {
+.partnerships {
+    margin-top: 10vw;
+}
+}
+
+@media (orientation: portrait) {
+.partnerships {
+    margin-top: 0vh;
+}
+}
