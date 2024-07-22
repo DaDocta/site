@@ -14,7 +14,6 @@ import '../styles/TypingText.css';
 
   const handleNonTextElement = (element) => {
     if (element) {
-      console.log('Element:', element);
       element.style.visibility = 'hidden';
       elements.current.push(element);
     }
@@ -173,18 +172,18 @@ import '../styles/TypingText.css';
   
 
   useEffect(() => {
-    makeInvisible();
-    /*
+    //makeInvisible();
+    
     const atimer = setTimeout(() => {
       makeInvisible();
     }, 0);
-    */
+    
     const timer = setTimeout(() => {
       typeText();
     }, 1);
 
     return () => {
-      /*clearTimeout(atimer);*/
+      clearTimeout(atimer);
       clearTimeout(timer);
     };
   }, []);

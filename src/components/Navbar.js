@@ -44,19 +44,6 @@ const Navbar = ({ selectedIndex, onSelect, colorIndex, onColorChange, menuItems 
     };
   }, [selectedIndex, updateArrowPosition]);
 
-  const handleKeyDown = useCallback((event) => {
-    if (event.key === 'ArrowDown') {
-      onSelect((prevIndex) => (prevIndex + 1) % menuItems.length);
-    } else if (event.key === 'ArrowUp') {
-      onSelect((prevIndex) => (prevIndex - 1 + menuItems.length) % menuItems.length);
-    }
-  }, [onSelect, menuItems.length]);
-
-  
-  useEffect(() => {
-    document.documentElement.style.setProperty('--main-color', colors[colorIndex]);
-  }, [colorIndex]);
-
   return (
     <div className="navbar background-change" tabIndex="0">
       <div className="arrow" ref={arrowRef}>▶</div>

@@ -142,27 +142,26 @@ const App = () => {
     }
   };
 
-  const handleColorChange = (event) => {
-    const newIndex = parseInt(event.target.value, 10);
-    setColorIndex(newIndex);
-  };
+  
 
   const handleTouchStart = (event) => {
     touchStartX.current = event.touches[0].clientX;
     touchStartY.current = event.touches[0].clientY;
+    touchEndX.current = touchStartX.current; // Reset touchEndX to the start position
+    touchEndY.current = touchStartY.current; // Reset touchEndY to the start position
   };
-
+  
   const handleTouchMove = (event) => {
     touchEndX.current = event.touches[0].clientX;
     touchEndY.current = event.touches[0].clientY;
   };
-
+  
   const handleTouchEnd = () => {
     const deltaX = touchStartX.current - touchEndX.current;
     const deltaY = touchStartY.current - touchEndY.current;
     const horizontalSwipeDistance = 100; // Minimum distance for a swipe
     const verticalSwipeDistance = 50; // Maximum vertical movement allowed
-
+  
     if (Math.abs(deltaX) > horizontalSwipeDistance && Math.abs(deltaY) < verticalSwipeDistance) {
       if (deltaX > 0) {
         navigateToNextColor();
@@ -171,6 +170,7 @@ const App = () => {
       }
     }
   };
+  
 
   return (
     <div
@@ -189,8 +189,7 @@ const App = () => {
           <Navbar 
             selectedIndex={selectedIndex} 
             onSelect={handleNavSelect} 
-            colorIndex={colorIndex} 
-            onColorChange={handleColorChange}
+            colorIndex={colorIndex}
             menuItems={menuItems}
           />
           <div className="landscape-section">{renderSection()}</div>
