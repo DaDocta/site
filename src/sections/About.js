@@ -3,6 +3,7 @@ import '../styles/About.css';
 import TypingText from '../components/TypingTextThird.js';
 import AsciiWords from '../components/AsciiWords.js';
 import imagine from '../assets/download.jpg';
+import resume from '../assets/resume.pdf';
 
 const About = () => {
   const getCodingYears = () => {
@@ -13,15 +14,15 @@ const About = () => {
   const getStudentYears = () => {
     const currentYear = new Date().getFullYear();
     if (currentYear - 2023 >= 4) {
-      return "Graduated";
+      return "graduated";
     }
     else {
-      return "Current";
+      return "current";
     }
   }
 
-  const conceptsList1 = ["Object-Oriented Programming", "Functional Programming", "Data Structures", "Algorithms"];
-  const conceptsList2 = ["Web Development", "Mobile Development", "Database Management", "Machine Learning"];
+  const conceptsList1 = ["Machine Learning", "Mobile Development", "Hardware Programming"];
+  const conceptsList2 = ["Web Development", "Data Analysis", "Game Development"];
 
   const [index, setIndex] = useState(0);
   const [typingDone, setTypingDone] = useState(false);
@@ -44,13 +45,10 @@ const About = () => {
     <div className="about">
       <TypingText delayTime={30} onTypingDone={handleTypingDone}>
         <div className="text-container">
-          <p>* {getStudentYears()} student at the <span className="UK">University of Kentucky</span></p>
-          <p>* Coding for well over <span className='year'>{getCodingYears()}</span> years</p>
-          <p>* Worked on many projects that range from <span className="concept">{conceptsList1[index]}</span> to <span className="concept">{conceptsList2[index]}</span></p>
-          <p>...</p>
-          <p>...</p>
-          <p>...</p>
-          <p>...</p>
+          <p>* I am a {getStudentYears()} student at the <span className="UK">University of Kentucky</span> (Computer Science B.S.)</p>
+          <p>* Computer Science has been my primary language for well over <span className='year'>{getCodingYears()}</span> years</p>
+          <p>* I have taken on many projects with topics that range from <span className="concept">{conceptsList1[index]}</span> to <span className="concept">{conceptsList2[index]}</span></p>
+          <p>* Still curious? Check out my <a href={resume} download="Garrett_Strange_Resume" className='resume-link'>{'<'}resume{'>'}</a></p>
         </div>
       </TypingText>
     </div>

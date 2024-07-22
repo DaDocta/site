@@ -2,7 +2,7 @@
   
 .container {
     width: 100%;
-    text-align: left; /* Ensure all text aligns to the left */
+    text-align: left;
 }
 
 .UK {
@@ -11,16 +11,45 @@
 }
 
 .year {
-    font-weight: bold;
-    color: rgb(255, 85, 0);
+    font-weight: bolder;
 }
 
 .concept {
     font-weight: bolder;
-    color: rgb(255, 255, 255);
-
+    color: rgb(255, 85, 0);
 }
 
-@media (orientation: landscape) {}
+.resume-link {
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+    animation: resumeColor 4s infinite;
+    transition: color 2s;
+    text-decoration: none;
+}
+
+@media (orientation: landscape) {
+    .about {
+        margin-top: 4vw;
+    }
+}
     
-@media (orientation: portrait) {}
+@media (orientation: portrait) {
+    .about {
+        margin-top: 0vh;
+    }
+}
+
+@keyframes resumeColor {
+    0%, 100% {
+        color: #ffccff;
+    }
+    25% {
+        color: #ffffcc;
+    }
+    50% {
+        color: #ccffff;
+    }
+    75% {
+        color: #ccffcc;
+    }
+}

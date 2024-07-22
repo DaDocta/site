@@ -1,3 +1,32 @@
-@media (orientation: landscape) {}
+.contact {}
+  
+.container {
+    width: 100%;
+    text-align: left;
+}
+
+.bug {
+    font-weight: bold;
+}
+
+.call {
+    font-weight: bold;
+}
+
+.email {
+    font-weight: bold;
+    text-decoration: none;
+}
+
+
+@media (orientation: landscape) {
+    .about {
+        margin-top: 4vw;
+    }
+}
     
-@media (orientation: portrait) {}
+@media (orientation: portrait) {
+    .about {
+        margin-top: 0vh;
+    }
+}

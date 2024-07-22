@@ -30,12 +30,14 @@
     /*transition: inherit;*/
   }
 
-  .color-slider {
+  /*
+  <input type="range" min="0" max={colors.length - 1} value={colorIndex} onChange={onColorChange} className="color-slider"/>
+  color-slider {
     margin-bottom: 20px;
     appearance: none;
     outline: none;
     border: 1px solid var(--main-color);
-    width: 16vw; /* Adjust width as needed */
+    width: 16vw;
     height: 2vw;
   }
 
@@ -45,6 +47,7 @@
     height: 3vw;
     background: var(--main-color);
   }
+  */
   
   .title {
     font-size: 4vw;

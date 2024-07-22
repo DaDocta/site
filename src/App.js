@@ -18,6 +18,10 @@ const App = () => {
   const [colorIndex, setColorIndex] = useState(0);
   const loadingTimeout = useRef(null); // Use ref to store timeout ID
   const menuItems = ['Home', 'About', 'Projects', 'Partnerships', 'Contact'];
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+  const touchStartY = useRef(0);
+  const touchEndY = useRef(0);
 
   const handleResize = () => {
     const isPortrait = window.innerHeight > window.innerWidth;
@@ -48,6 +52,23 @@ const App = () => {
       if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
         event.preventDefault(); // Prevent default scrolling behavior in portrait mode
       }
+
+      switch (event.key) {
+        case 'ArrowUp':
+          navigateToPreviousSection();
+          break;
+        case 'ArrowDown':
+          navigateToNextSection();
+          break;
+        case 'ArrowRight':
+          navigateToNextColor();
+          break;
+        case 'ArrowLeft':
+          navigateToPreviousColor();
+          break;
+        default:
+          break;
+      }
     };
 
     window.addEventListener('keydown', handleKeyDown);
@@ -66,6 +87,14 @@ const App = () => {
       'rgb(0, 255, 255)', // Cyan
     ];
     return colors[index];
+  };
+
+  const navigateToNextColor = () => {
+    setColorIndex((prevIndex) => (prevIndex + 1) % 4); // 4 is the number of colors
+  };
+
+  const navigateToPreviousColor = () => {
+    setColorIndex((prevIndex) => (prevIndex - 1 + 4) % 4); // 4 is the number of colors
   };
 
   const setNewIndex = (newIndex) => {
@@ -118,8 +147,37 @@ const App = () => {
     setColorIndex(newIndex);
   };
 
+  const handleTouchStart = (event) => {
+    touchStartX.current = event.touches[0].clientX;
+    touchStartY.current = event.touches[0].clientY;
+  };
+
+  const handleTouchMove = (event) => {
+    touchEndX.current = event.touches[0].clientX;
+    touchEndY.current = event.touches[0].clientY;
+  };
+
+  const handleTouchEnd = () => {
+    const deltaX = touchStartX.current - touchEndX.current;
+    const deltaY = touchStartY.current - touchEndY.current;
+    const horizontalSwipeDistance = 100; // Minimum distance for a swipe
+    const verticalSwipeDistance = 50; // Maximum vertical movement allowed
+
+    if (Math.abs(deltaX) > horizontalSwipeDistance && Math.abs(deltaY) < verticalSwipeDistance) {
+      if (deltaX > 0) {
+        navigateToNextColor();
+      } else {
+        navigateToPreviousColor();
+      }
+    }
+  };
+
   return (
-    <>
+    <div
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
       {isPortrait ? (
         <div className='portrait'>
           <UpButton navigateToPreviousSection={navigateToPreviousSection} onClick={navigateToPreviousSection} />
@@ -138,7 +196,7 @@ const App = () => {
           <div className="landscape-section">{renderSection()}</div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

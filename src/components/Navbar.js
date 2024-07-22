@@ -52,18 +52,7 @@ const Navbar = ({ selectedIndex, onSelect, colorIndex, onColorChange, menuItems 
     }
   }, [onSelect, menuItems.length]);
 
-  useEffect(() => {
-    const handleGlobalKeyDown = (event) => {
-      event.preventDefault();
-      handleKeyDown(event);
-    };
-
-    window.addEventListener('keydown', handleGlobalKeyDown);
-    return () => {
-      window.removeEventListener('keydown', handleGlobalKeyDown);
-    };
-  }, [handleKeyDown]);
-
+  
   useEffect(() => {
     document.documentElement.style.setProperty('--main-color', colors[colorIndex]);
   }, [colorIndex]);
@@ -78,7 +67,6 @@ const Navbar = ({ selectedIndex, onSelect, colorIndex, onColorChange, menuItems 
           </div>
         ))}
       </div>
-      <input type="range" min="0" max={colors.length - 1} value={colorIndex} onChange={onColorChange} className="color-slider"/>
     </div>
   );
 };
