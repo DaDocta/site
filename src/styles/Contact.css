@@ -12,6 +12,8 @@
 .call {
     font-weight: bold;
     text-decoration: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
 }
 
 .email {
