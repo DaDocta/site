@@ -19,18 +19,6 @@ import '../styles/TypingText.css';
     }
   };
 
-  const traverseAndProcess1 = (element) => {
-    if (element.nodeType === Node.ELEMENT_NODE) {
-      if (element.textContent && element.tagName !== 'DIV') {
-        handleTextElement(element);
-      } else if (!element.textContent) {
-        handleNonTextElement(element);
-      } else {
-        Array.from(element.childNodes).forEach(child => traverseAndProcess(child));
-      }
-    }
-  };
-
   const traverseAndProcess = (element) => {
     if (element.nodeType === Node.TEXT_NODE) {
       return;
@@ -46,6 +34,7 @@ import '../styles/TypingText.css';
           if (textContent) {
             originalText.current.set(child, textContent);
             child.textContent = '';
+            element.style.visibility = 'hidden';
             elements.current.push(child);
           } else {
             handleNonTextElement(child);
@@ -54,26 +43,6 @@ import '../styles/TypingText.css';
           traverseAndProcess(child);
         }
       });
-    }
-  };
-
-  const traverseAndProcess3 = (element) => {
-    if (element.nodeType === Node.ELEMENT_NODE) {
-      if (element.tagName === 'P') {
-        Array.from(element.childNodes).forEach(child => {
-          if (child.nodeType === Node.ELEMENT_NODE && child.tagName === 'SPAN' && !child.classList.contains('cursor')) {
-            handleTextElement(child);
-          }
-        });
-      }
-    if (element.textContent && element.tagName !== 'DIV') {
-      handleTextElement(element);
-    } else if (!element.textContent) {
-      handleNonTextElement(element);
-    } else {
-      Array.from(element.childNodes).forEach(child => traverseAndProcess(child));
-    }
-      
     }
   };
 
@@ -117,6 +86,7 @@ import '../styles/TypingText.css';
     for (let i = 0; i < elements.current.length; i++) {
       const text = originalText.current.get(elements.current[i]);
       if (text) {
+        elements.current[i].parentElement.style.visibility = 'visible';
         await typeLine(elements.current[i], text);
       } else {
         elements.current[i].style.visibility = 'visible';

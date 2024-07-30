@@ -23,10 +23,9 @@ const Contact = () => {
   return (
     <div className='contact'>
       <TypingText>
-        <p>* Do you have an idea to enhance software?</p>
         <p>* Are you in need of a website for your business?</p>
-        <p>* Does your app have a <a href='https://www.google.com/search?tbm=isch&q=bug' className='bug'>bug</a> in it?</p>
-        <p>* {isPortrait ? 'Is swiping' : 'Are arrow keys'}  changing the website color?</p>
+        <p>* Does your device have a <a href='https://www.google.com/search?tbm=isch&q=bug' className='bug'>bug</a> in it?</p>
+        <p>* {isPortrait ? 'Is swiping' : 'Are the arrow keys'}  changing the website color?</p>
         <p className='call'>Call me now at (859) 250-7142</p>
         <a href="mailto:garrett.strange@yahoo.com" className='email'>Otherwise click <u>here</u> to email me</a>
       </TypingText>

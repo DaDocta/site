@@ -8,22 +8,21 @@ import Carousel from '../components/Carousel.js';
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
-  const [typingDone, setTypingDone] = useState(false);
 
   useEffect(() => {
     setProjects(projectJson);
   }, []);
 
-  const handleTypingDone = () => {
-    setTypingDone(true);
-  };
-
   return (
     <div className='projects'>
-      <TypingText onTypingDone={handleTypingDone}>
+      <TypingText>
         <p>Here are a few of my current projects: </p>
-        <Carousel projects={projects} canClick={typingDone} />
-        <p>Those are my ongoing projects</p>
+        <p> </p>
+        {projects.map((project, index) => (
+          <p key={index}>
+            <span className='projectName'>* {project.name}: </span>{project.description} ({project.progress}%)
+          </p>
+        ))}
       </TypingText>
     </div>
   );

@@ -1,0 +1,94 @@
+.carousel-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  position: relative;
+}
+
+.name, .description, .progress {
+  font-weight: bolder;
+}
+
+.carousel-slide {
+  border: 1px solid var(--main-color);
+  text-align: center;
+  padding: 2vw;
+  flex: 1;
+  cursor: pointer;
+}
+
+.carousel-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bolder;
+}
+
+.carousel-controls a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--main-color);
+  padding: 1vw;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.carousel-controls a:hover {
+  background-color: var(--main-color);
+  color: #000;
+}
+
+.inverted .carousel-slide,
+.inverted .carousel-slide > * {
+  background-color: var(--main-color);
+  color: #000;
+}
+
+@media (orientation: portrait) {
+  .carousel-slide {
+    padding: 2vh;
+    min-height: 30vh;
+    min-width: 25vh;
+    margin: 0 4vw;
+  }
+
+  .carousel-controls {
+    width: 10vh;
+    height: 10vh;
+    font-size: 6vh;
+  }
+  
+  .name {
+    font-size: 4vh;
+  }
+
+  .description, .progress {
+    font-size: 2vh;
+  }
+}
+
+@media (orientation: landscape) {
+  .carousel-slide {
+    padding: 2vw;
+    min-height: 20vw;
+    min-width: 0vw;
+    margin: 0 2vw;
+  }
+
+  .carousel-controls {
+    width: 5vw; /* Adjust control width for landscape */
+    height: 5vw; /* Adjust control height for landscape */
+    font-size: 2vw;
+  }
+
+  .name {
+    font-size: 3vw;
+  }
+
+  .description, .progress {
+    font-size: 2vw;
+  }
+}
