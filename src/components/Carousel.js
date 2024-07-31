@@ -43,21 +43,21 @@ const Carousel = ({ projects, canClick }) => {
     }
 
     return (
-        <div className={`carousel-container ${isClicked ? 'inverted' : ''}`}>
+        <div className={`carousel ${isClicked ? 'inverted' : ''}`}>
             <div className="carousel-controls previous">
                 <a onClick={goToPrevious}>{'<'}</a>
             </div>
-            <div className={`carousel-slide`} onClick={handleClick}>
+            <div className={`container`} onClick={handleClick}>
                 {isClicked ? (
-                    <>
+                    <div className='slide'>
                         <p className='name'>{projects[currentIndex].name}</p>
                         <p className='description'>{projects[currentIndex].description}</p>
-                    </>
+                    </div>
                 ) : (
-                    <>
+                    <div className='slide'>
                         <p className='name'>{projects[currentIndex].name}</p>
                         <p className='progress'>Progress: {projects[currentIndex].progress}%</p>
-                    </>
+                    </div>
                 )}
             </div>
             <div className="carousel-controls next">

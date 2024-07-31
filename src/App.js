@@ -7,9 +7,9 @@ import About from './sections/About';
 import Projects from './sections/Projects';
 import Partnerships from './sections/Partnerships';
 import Contact from './sections/Contact';
-import Loading from './sections/Loading'; // Ensure this is the correct path to Loading component
+import Loading from './sections/Loading';
 import './styles/App.css';
-import './styles/Loading.css';
+
 
 const App = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -105,7 +105,7 @@ const App = () => {
     setSelectedIndex(newIndex);
     loadingTimeout.current = setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 1000);
   };
 
   const navigateToNextSection = () => {

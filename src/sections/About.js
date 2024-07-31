@@ -95,7 +95,7 @@ const About = () => {
 
   return (
     <div className="about">
-      <TypingText delayTime={30} onTypingDone={handleTypingDone}>
+      <TypingText onTypingDone={handleTypingDone}>
         <div className="text-container">
           <p>* I am a {getStudentYears()} student at the <span className="UK">University of Kentucky</span> (Computer Science B.S.)</p>
           <p>* Computer Science has been my primary language for well over <span className='year'>{getCodingYears()}</span> years</p>

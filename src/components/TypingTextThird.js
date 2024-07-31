@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import '../styles/TypingText.css';
 
-  const TypingText = ({ children, delayTime = 30, onTypingDone = () => {} }) => {
+  const TypingText = ({ children, delayTime = 20, onTypingDone = () => {} }) => {
   const originalText = useRef(new Map());
   const elements = useRef([]);
   const cursor = useRef(null);
@@ -25,7 +25,7 @@ import '../styles/TypingText.css';
     }
   
     if (element.nodeType === Node.ELEMENT_NODE) {
-      if (!element.textContent) {
+      if (!element.textContent || element.tagName == "DIV") {
         handleNonTextElement(element);
         };
       Array.from(element.childNodes).forEach(child => {
@@ -77,7 +77,6 @@ import '../styles/TypingText.css';
     const rootElement = document.querySelector('.typing-text');
     traverseAndProcess(rootElement);
     setInitialCursor();
-    /*console.log('Original text after makeInvisible:', originalText.current);*/
   };
 
 

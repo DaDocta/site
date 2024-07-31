@@ -1,4 +1,4 @@
-.carousel-container {
+.carousel {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -10,12 +10,15 @@
   font-weight: bolder;
 }
 
-.carousel-slide {
-  border: 1px solid var(--main-color);
-  text-align: center;
+.carousel > .container {
   padding: 2vw;
   flex: 1;
   cursor: pointer;
+  border: 1px solid var(--main-color);
+}
+
+.slide {
+  text-align: center;
 }
 
 .carousel-controls {
@@ -41,14 +44,15 @@
   color: #000;
 }
 
-.inverted .carousel-slide,
-.inverted .carousel-slide > * {
+.inverted .container,
+.inverted .slide,
+.inverted .container > .slide > * {
   background-color: var(--main-color);
   color: #000;
 }
 
 @media (orientation: portrait) {
-  .carousel-slide {
+  .carousel > .container {
     padding: 2vh;
     min-height: 30vh;
     min-width: 25vh;
@@ -71,7 +75,7 @@
 }
 
 @media (orientation: landscape) {
-  .carousel-slide {
+  .carousel > .container {
     padding: 2vw;
     min-height: 20vw;
     min-width: 0vw;
