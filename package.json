@@ -1,6 +1,6 @@
 {
-  "homepage": "https://dadocta.github.io/portfolio/",
-  "name": "portfolio",
+  "homepage": "https://dadocta.github.io/",
+  "name": "site",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
