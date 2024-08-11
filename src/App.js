@@ -17,7 +17,7 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [colorIndex, setColorIndex] = useState(0);
   const loadingTimeout = useRef(null); // Use ref to store timeout ID
-  const menuItems = ['Home', 'About', 'Projects', 'Partnerships', 'Contact'];
+  const menuItems = ['Home', 'About', 'Projects', 'Contact']; //'Partnerships'
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
   const touchStartY = useRef(0);
