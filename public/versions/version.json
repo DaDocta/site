@@ -1,0 +1,8 @@
+{
+    "test": {
+      "version": "1.0.0",
+      "zip_url": "https://garrettstrange.com/versions/zips/test_v1.0.0.zip",
+      "release_notes": "Initial release for the Test app."
+    }
+  }
+  
