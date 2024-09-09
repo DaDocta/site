@@ -1,7 +1,7 @@
 {
-    "test": {
+    "character": {
       "version": "1.0.1",
-      "zip_url": "https://garrettstrange.com/versions/zips/test.zip",
+      "zip_url": "https://drive.google.com/uc?id=1nOiaJA_UFpDSDYJh7TjvKHeP5QeKhiYh&export=download",
       "release_notes": "Initial release for the Test app."
     }
   }
