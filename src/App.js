@@ -82,7 +82,7 @@ const App = () => {
   const getColor = (index) => {
     const colors = [
       'rgb(0, 255, 0)',   // Green
-      'rgb(255, 0, 255)', // Pink
+      'rgb(255, 0, 255)', // Pinky
       'rgb(255, 255, 0)', // Yellow
       'rgb(0, 255, 255)', // Cyan
     ];
