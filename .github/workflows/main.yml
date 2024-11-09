@@ -30,6 +30,9 @@ jobs:
         run: npm install
 
       - name: Build the project
+        # Set CI=false to avoid treating warnings as errors in CI environment
+        env:
+          CI: false
         run: npm run build # Adjust this if your build command is different
 
       - name: Upload artifact
