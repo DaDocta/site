@@ -141,21 +141,28 @@ import '../styles/TypingText.css';
   
 
   useEffect(() => {
-    makeInvisible();
-    
+    const testing = true;
+  
+    if (!testing) {
+      makeInvisible();
+    }
+
     const atimer = setTimeout(() => {
       makeInvisible();
     }, 0);
-    
+  
     const timer = setTimeout(() => {
       typeText();
     }, 1);
-
+  
     return () => {
-      //clearTimeout(atimer);
+      if (testing) { // delete condition if there is no problem
+        clearTimeout(atimer);
+      }
       clearTimeout(timer);
     };
   }, []);
+  
 
   return (
     <div className='typing-text'>
