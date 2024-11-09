@@ -144,11 +144,6 @@ const TypingText = ({ children, delayTime = 20, onTypingDone = () => {} }) => {
   };
 
   useEffect(() => {
-    const testing = false;
-
-    if (!testing) {
-      makeInvisible();
-    }
 
     const atimer = setTimeout(() => {
       makeInvisible();
@@ -159,9 +154,7 @@ const TypingText = ({ children, delayTime = 20, onTypingDone = () => {} }) => {
     }, 1);
 
     return () => {
-      if (testing) { // delete condition if there is no problem
-        clearTimeout(atimer);
-      }
+      clearTimeout(atimer);
       clearTimeout(timer);
     };
   }, []);
