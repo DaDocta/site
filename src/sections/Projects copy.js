@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/Projects.css';
-import TypingText from '../components/TypingTextThird.js';
+import TypingText from '../components/TypingText.js';
 import AsciiWords from '../components/AsciiWords.js';
 import imagine from '../assets/download.jpg';
 import projectJson from '../assets/json/projects.json';
