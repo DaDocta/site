@@ -21,11 +21,9 @@ const Projects = () => {
   return (
     <div className='projects'>
       <TypingText onTypingDone={handleTypingDone}>
-      <div>
         <p>Here are a few of my current projects: </p>
         <Carousel projects={projects} canClick={typingDone} />
         <p>Those are my ongoing projects</p>
-      </div>
       </TypingText>
     </div>
   );

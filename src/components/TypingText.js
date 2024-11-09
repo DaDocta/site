@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import '../styles/TypingText.css';
 
-  const TypingText = ({ children, delayTime = 20, onTypingDone = () => {} }) => {
+const TypingText = ({ children, delayTime = 20, onTypingDone = () => {} }) => {
   const originalText = useRef(new Map());
   const elements = useRef([]);
   const cursor = useRef(null);
@@ -9,7 +9,7 @@ import '../styles/TypingText.css';
   const handleTextElement = (element) => {
     originalText.current.set(element, element.textContent);
     element.textContent = '';
-    elements.current.push(element)
+    elements.current.push(element);
   }
 
   const handleNonTextElement = (element) => {
@@ -23,18 +23,19 @@ import '../styles/TypingText.css';
     if (element.nodeType === Node.TEXT_NODE) {
       return;
     }
-  
+
     if (element.nodeType === Node.ELEMENT_NODE) {
-      if (!element.textContent || element.tagName == "DIV") {
+      if (!element.textContent || element.tagName === "DIV") {
         handleNonTextElement(element);
-        };
+      }
       Array.from(element.childNodes).forEach(child => {
         if (child.nodeType === Node.TEXT_NODE) {
           const textContent = child.textContent;
           if (textContent) {
             originalText.current.set(child, textContent);
             child.textContent = '';
-            element.style.visibility = 'hidden';
+            // Removed hiding the parent element to prevent hiding the entire container
+            // element.style.visibility = 'hidden'; 
             elements.current.push(child);
           } else {
             handleNonTextElement(child);
@@ -45,9 +46,6 @@ import '../styles/TypingText.css';
       });
     }
   };
-
-  
-
 
   const setInitialCursor = () => {
     if (elements.current.length > 0 && cursor.current) {
@@ -79,9 +77,15 @@ import '../styles/TypingText.css';
     setInitialCursor();
   };
 
-
   const typeText = async () => {
-    if (cursor.current) {cursor.current.classList.add('typing');}
+    if (cursor.current) { cursor.current.classList.add('typing'); }
+
+    // Reveal the container by setting its visibility to visible
+    const rootElement = document.querySelector('.typing-text');
+    if (rootElement) {
+      rootElement.style.visibility = 'visible';
+    }
+
     for (let i = 0; i < elements.current.length; i++) {
       const text = originalText.current.get(elements.current[i]);
       if (text) {
@@ -91,20 +95,20 @@ import '../styles/TypingText.css';
         elements.current[i].style.visibility = 'visible';
       }
     }
-    if (cursor.current) {cursor.current.classList.remove('typing');}
+    if (cursor.current) { cursor.current.classList.remove('typing'); }
     setFinalCursor();
-    if (onTypingDone) { onTypingDone();}
+    if (onTypingDone) { onTypingDone(); }
   };
 
   const typeCharacter = (element, text, charIndex) => {
     element.textContent += text.charAt(charIndex);
   };
-  
+
   const addCursor = (element) => {
     if (cursor.current) {
       if (!element.contains(cursor.current)) {
         if (element.tagName === 'SPAN') {
-        element.appendChild(cursor.current);
+          element.appendChild(cursor.current);
         }
         else {
           element.parentElement.appendChild(cursor.current);
@@ -119,8 +123,8 @@ import '../styles/TypingText.css';
     }
   };
 
-  const checkSpan = (element) => {};
-  
+  const checkSpan = (element) => { };
+
   const typeLine = (element, text) => {
     return new Promise((resolve) => {
       let charIndex = 0;
@@ -138,11 +142,10 @@ import '../styles/TypingText.css';
       }, delayTime);
     });
   };
-  
 
   useEffect(() => {
     const testing = false;
-  
+
     if (!testing) {
       makeInvisible();
     }
@@ -150,11 +153,11 @@ import '../styles/TypingText.css';
     const atimer = setTimeout(() => {
       makeInvisible();
     }, 0);
-  
+
     const timer = setTimeout(() => {
       typeText();
     }, 1);
-  
+
     return () => {
       if (testing) { // delete condition if there is no problem
         clearTimeout(atimer);
@@ -162,7 +165,6 @@ import '../styles/TypingText.css';
       clearTimeout(timer);
     };
   }, []);
-  
 
   return (
     <div className='typing-text'>
