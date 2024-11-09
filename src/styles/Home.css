@@ -1,0 +1,54 @@
+.home {
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  width: 100%;
+  text-align: left;
+}
+
+.text-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.greeting-text {
+  margin: 0;
+}
+
+.ascii-container {
+  width: 100%; /* Ensure it takes the full width */
+  display: flex;
+  justify-content: center; /* Center the ASCII art horizontally */
+  align-items: center;
+}
+
+.Garrett {
+  background: linear-gradient(90deg, #ff00ff, #00aaaa, red);
+  -webkit-background-clip: text;
+  color: transparent;
+  text-align: left; /* Ensure text aligns to the left */
+  margin-right: 20%;
+}
+
+.Strange {
+  background: linear-gradient(90deg, red, orange, #ffffbb);
+  -webkit-background-clip: text;
+  color: transparent;
+  text-align: left; /* Ensure text aligns to the left */
+  margin-left: 20%;
+}
+
+@media (orientation: landscape) {
+  .container {
+    margin-top: 8vw;
+  }
+}
+
+@media (orientation: portrait) {
+  .container {
+    margin-top: 20vh;
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "astra": {
+    "version": "1.0.1",
+    "zip_url": "https://drive.google.com/uc?id=1ofpvVvGs0vG_nnh2yxIzXsoOzF5aQnoo&export=download",
+    "release_notes": "Bug fixes and performance improvements."
+  },
+  "achieve": {
+    "version": "1.0.1",
+    "zip_url": "https://drive.google.com/uc?id=1fR6cjicR7eoJN5KBrOYpKID7lMKeOO2F&export=download",
+    "release_notes": "Bug fixes and performance improvements."
+  },
+  "character": {
+    "version": "1.0.1",
+    "zip_url": "https://drive.google.com/uc?id=1nOiaJA_UFpDSDYJh7TjvKHeP5QeKhiYh&export=download",
+    "release_notes": "Bug fixes and performance improvements."
+  },
+  "readaloud": {
+    "version": "1.0.1",
+    "zip_url": "https://drive.google.com/uc?id=13PG4NG6pUFkyiePICfm_t6Lm4cF8sMa3&export=download",
+    "release_notes": "Bug fixes and performance improvements."
+  }
+}
