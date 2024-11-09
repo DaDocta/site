@@ -141,7 +141,7 @@ import '../styles/TypingText.css';
   
 
   useEffect(() => {
-    const testing = true;
+    const testing = false;
   
     if (!testing) {
       makeInvisible();
