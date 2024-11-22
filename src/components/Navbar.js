@@ -27,18 +27,24 @@ const Navbar = ({ selectedIndex, onSelect, colorIndex, onColorChange, menuItems 
   }, [selectedIndex, menuItems.length]);
 
   useEffect(() => {
-    setTimeout(() => {
+    // Delay the arrow position update by 3 seconds
+    const timer = setTimeout(() => {
       updateArrowPosition();
-    }, 3);
+    }, 3000);
+
     const resizeObserver = new ResizeObserver(() => {
       updateArrowPosition();
     });
+
     itemRefs.current.forEach(ref => {
       if (ref.current) {
         resizeObserver.observe(ref.current);
       }
     });
+
+    // Cleanup function
     return () => {
+      clearTimeout(timer); // Clear the timer on unmount or dependency change
       resizeObserver.disconnect();
     };
   }, [selectedIndex, updateArrowPosition]);
@@ -46,9 +52,14 @@ const Navbar = ({ selectedIndex, onSelect, colorIndex, onColorChange, menuItems 
   return (
     <div className="navbar background-change" tabIndex="0">
       <div className="arrow" ref={arrowRef}>▶</div>
-      <div className='navbar-container'>
+      <div className="navbar-container">
         {menuItems.map((item, index) => (
-          <div key={item} ref={itemRefs.current[index]} className={`navbar-item ${selectedIndex === index ? 'active' : ''}`} onClick={() => onSelect(index)}>
+          <div
+            key={item}
+            ref={itemRefs.current[index]}
+            className={`navbar-item ${selectedIndex === index ? 'active' : ''}`}
+            onClick={() => onSelect(index)}
+          >
             {item}
           </div>
         ))}
