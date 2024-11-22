@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useCallback } from 'react';
 import '../styles/Navbar.css';
 
 const Navbar = ({ selectedIndex, onSelect, colorIndex, onColorChange, menuItems }) => {
@@ -18,20 +18,23 @@ const Navbar = ({ selectedIndex, onSelect, colorIndex, onColorChange, menuItems 
   }, [menuItems]);
 
   const updateArrowPosition = useCallback(() => {
-    const currentRef = itemRefs.current[selectedIndex];
-    if (currentRef && currentRef.current) {
-      const itemStyle = window.getComputedStyle(currentRef.current);
-      const itemHeight = currentRef.current.getBoundingClientRect().height;
-      const arrowHeight = arrowRef.current ? arrowRef.current.clientHeight : 0;
-      const topPosition = currentRef.current.offsetTop + itemHeight / 2 - arrowHeight / 2;
-      const leftPosition = currentRef.current.offsetLeft; // Adjust the offset for the arrow
-      arrowRef.current.style.top = `${topPosition}px`;
-      arrowRef.current.style.left = `${leftPosition}px`; // Set the left position of the arrow
-      arrowRef.current.style.fontSize = itemStyle.fontSize; // Ensure arrow font size matches
-    }
-  }, [selectedIndex, itemRefs.current.length]);
+    requestAnimationFrame(() => {
+      const currentRef = itemRefs.current[selectedIndex];
+      if (currentRef && currentRef.current && arrowRef.current) {
+        const itemStyle = window.getComputedStyle(currentRef.current);
+        const itemRect = currentRef.current.getBoundingClientRect();
+        const navbarRect = currentRef.current.parentNode.getBoundingClientRect();
+        const arrowHeight = arrowRef.current.clientHeight;
+        const topPosition = itemRect.top - navbarRect.top + itemRect.height / 2 - arrowHeight / 2;
+        const leftPosition = itemRect.left - navbarRect.left; // Adjust the offset for the arrow
+        arrowRef.current.style.top = `${topPosition}px`;
+        arrowRef.current.style.left = `${leftPosition}px`; // Set the left position of the arrow
+        arrowRef.current.style.fontSize = itemStyle.fontSize; // Ensure arrow font size matches
+      }
+    });
+  }, [selectedIndex]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     updateArrowPosition();
     const resizeObserver = new ResizeObserver(() => {
       updateArrowPosition();
