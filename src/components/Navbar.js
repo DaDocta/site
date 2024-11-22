@@ -1,54 +1,50 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback, useLayoutEffect } from 'react';
 import '../styles/Navbar.css';
 
-const Navbar = ({ selectedIndex, onSelect, menuItems }) => {
+const Navbar = ({ selectedIndex, onSelect, colorIndex, onColorChange, menuItems }) => {
+  const colors = [
+    'rgb(0, 255, 0)',   // Green
+    'rgb(255, 0, 255)', // Pink
+    'rgb(255, 255, 0)', // Yellow
+    'rgb(0, 255, 255)', // Cyan
+  ];
+
   const arrowRef = useRef(null);
   const itemRefs = useRef(menuItems.map(() => React.createRef()));
 
   const updateArrowPosition = useCallback(() => {
     const currentRef = itemRefs.current[selectedIndex];
-    if (currentRef && currentRef.current && arrowRef.current) {
-      const item = currentRef.current;
-      const itemRect = item.getBoundingClientRect();
-      const parentRect = item.offsetParent.getBoundingClientRect();
-
-      // Calculate the arrow's top position relative to its container
-      const topPosition =
-        itemRect.top - parentRect.top + itemRect.height / 2 - arrowRef.current.offsetHeight / 2;
-
+    if (currentRef?.current && arrowRef.current) {
+      const itemRect = currentRef.current.getBoundingClientRect();
+      const arrowRect = arrowRef.current.getBoundingClientRect();
+      const topPosition = currentRef.current.offsetTop + itemRect.height / 2 - arrowRect.height / 2;
+      const leftPosition = currentRef.current.offsetLeft;
       arrowRef.current.style.top = `${topPosition}px`;
-      arrowRef.current.style.left = `-25px`; // Keep the arrow at a fixed left position
+      arrowRef.current.style.left = `${leftPosition}px`;
+      arrowRef.current.style.fontSize = window.getComputedStyle(currentRef.current).fontSize;
     }
   }, [selectedIndex]);
 
+  useLayoutEffect(() => {
+    updateArrowPosition(); // Run once after render to set the initial position
+  }, [updateArrowPosition]);
+
   useEffect(() => {
-    const handleInitialRender = () => {
-      updateArrowPosition();
-      setTimeout(() => {
-        updateArrowPosition();
-      }, 50); // Small delay to allow layout stabilization
-    };
-
-    // Update position initially and on layout changes
-    handleInitialRender();
-
-    const resizeObserver = new ResizeObserver(() => {
-      updateArrowPosition();
-    });
-
+    const handleResize = () => updateArrowPosition();
+    const resizeObserver = new ResizeObserver(() => updateArrowPosition());
     itemRefs.current.forEach(ref => {
-      if (ref.current) {
-        resizeObserver.observe(ref.current);
-      }
+      if (ref.current) resizeObserver.observe(ref.current);
     });
 
+    window.addEventListener('resize', handleResize);
     return () => {
+      window.removeEventListener('resize', handleResize);
       resizeObserver.disconnect();
     };
   }, [updateArrowPosition]);
 
   return (
-    <div className="navbar" tabIndex="0">
+    <div className="navbar background-change" tabIndex="0">
       <div className="arrow" ref={arrowRef}>▶</div>
       <div className="navbar-container">
         {menuItems.map((item, index) => (
