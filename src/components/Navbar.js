@@ -1,59 +1,55 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 import '../styles/Navbar.css';
 
-const Navbar = ({ selectedIndex, onSelect, menuItems }) => {
+const Navbar = ({ selectedIndex, onSelect, colorIndex, onColorChange, menuItems }) => {
+  const colors = [
+    'rgb(0, 255, 0)',   // Green
+    'rgb(255, 0, 255)', // Pink
+    'rgb(255, 255, 0)', // Yellow
+    'rgb(0, 255, 255)', // Cyan
+  ];
+
   const arrowRef = useRef(null);
   const itemRefs = useRef([]);
 
-  // Initialize refs for each menu item dynamically
+  // Update itemRefs whenever menuItems change
   useEffect(() => {
-    itemRefs.current = menuItems.map((_, index) => itemRefs.current[index] || React.createRef());
+    itemRefs.current = menuItems.map((_, i) => itemRefs.current[i] || React.createRef());
   }, [menuItems]);
 
   const updateArrowPosition = useCallback(() => {
     const currentRef = itemRefs.current[selectedIndex];
     if (currentRef && currentRef.current) {
       const itemStyle = window.getComputedStyle(currentRef.current);
-      const itemRect = currentRef.current.getBoundingClientRect();
+      const itemHeight = currentRef.current.getBoundingClientRect().height;
       const arrowHeight = arrowRef.current ? arrowRef.current.clientHeight : 0;
-
-      // Vertical positioning: center the arrow with the menu item
-      const topPosition = currentRef.current.offsetTop + itemRect.height / 2 - arrowHeight / 2;
-
-      // Horizontal positioning: align with the left edge of the item
-      const leftPosition = currentRef.current.offsetLeft - arrowRef.current.offsetWidth - 10; // Adjust spacing as needed
-
+      const topPosition = currentRef.current.offsetTop + itemHeight / 2 - arrowHeight / 2;
+      const leftPosition = currentRef.current.offsetLeft; // Adjust the offset for the arrow
       arrowRef.current.style.top = `${topPosition}px`;
-      arrowRef.current.style.left = `${leftPosition}px`;
+      arrowRef.current.style.left = `${leftPosition}px`; // Set the left position of the arrow
       arrowRef.current.style.fontSize = itemStyle.fontSize; // Ensure arrow font size matches
     }
-  }, [selectedIndex]);
+  }, [selectedIndex, itemRefs.current.length]);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      updateArrowPosition();
-    }, 0);
-
+    updateArrowPosition();
     const resizeObserver = new ResizeObserver(() => {
       updateArrowPosition();
     });
-
     itemRefs.current.forEach(ref => {
       if (ref.current) {
         resizeObserver.observe(ref.current);
       }
     });
-
     return () => {
-      clearTimeout(timer);
       resizeObserver.disconnect();
     };
-  }, [selectedIndex, menuItems, updateArrowPosition]);
+  }, [selectedIndex, updateArrowPosition, menuItems]);
 
   return (
     <div className="navbar background-change" tabIndex="0">
       <div className="arrow" ref={arrowRef}>▶</div>
-      <div className="navbar-container">
+      <div className='navbar-container'>
         {menuItems.map((item, index) => (
           <div
             key={item}
