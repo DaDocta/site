@@ -35,7 +35,7 @@ const Navbar = ({ selectedIndex, onSelect, colorIndex, onColorChange, menuItems 
       // Add fallback adjustment for initial load
       setTimeout(() => {
         updateArrowPosition();
-      }, 1); // Delay allows layout to stabilize
+      }, 10); // Delay allows layout to stabilize
     };
 
     adjustArrowPosition();
