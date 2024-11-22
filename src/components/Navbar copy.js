@@ -27,9 +27,10 @@ const Navbar = ({ selectedIndex, onSelect, colorIndex, onColorChange, menuItems 
   }, [selectedIndex, menuItems.length]);
 
   useEffect(() => {
+    updateArrowPosition();
     setTimeout(() => {
       updateArrowPosition();
-    }, 3);
+    }, 0);
     const resizeObserver = new ResizeObserver(() => {
       updateArrowPosition();
     });
