@@ -2,57 +2,46 @@ import React, { useEffect, useRef, useCallback } from 'react';
 import '../styles/Navbar.css';
 
 const Navbar = ({ selectedIndex, onSelect, colorIndex, onColorChange, menuItems }) => {
-  const colors = [
-    'rgb(0, 255, 0)',   // Green
-    'rgb(255, 0, 255)', // Pink
-    'rgb(255, 255, 0)', // Yellow
-    'rgb(0, 255, 255)', // Cyan
-  ];
-
   const arrowRef = useRef(null);
   const itemRefs = useRef(menuItems.map(() => React.createRef()));
 
   const updateArrowPosition = useCallback(() => {
     const currentRef = itemRefs.current[selectedIndex];
     if (currentRef && currentRef.current && arrowRef.current) {
-      const itemStyle = window.getComputedStyle(currentRef.current);
-      const itemHeight = currentRef.current.getBoundingClientRect().height;
-      const arrowHeight = arrowRef.current.clientHeight;
-      const topPosition = currentRef.current.offsetTop + itemHeight / 2 - arrowHeight / 2;
-      const leftPosition = currentRef.current.offsetLeft;
+      const itemHeight = currentRef.current.offsetHeight;
+      const itemTop = currentRef.current.getBoundingClientRect().top + window.scrollY; // Account for scroll
+      const navbarTop = currentRef.current.offsetParent.offsetTop + window.scrollY;
+      const arrowHeight = arrowRef.current.offsetHeight;
 
-      // Apply calculated styles to the arrow
+      const topPosition = itemTop - navbarTop + itemHeight / 2 - arrowHeight / 2;
       arrowRef.current.style.top = `${topPosition}px`;
-      arrowRef.current.style.left = `${leftPosition}px`;
-      arrowRef.current.style.fontSize = itemStyle.fontSize; // Ensure arrow font size matches
+      arrowRef.current.style.left = `${currentRef.current.offsetLeft}px`;
     }
-  }, [selectedIndex, menuItems]);
+  }, [selectedIndex]);
 
   useEffect(() => {
-    const adjustArrowPosition = () => {
+    const onWindowLoad = () => {
       updateArrowPosition();
-
-      // Add fallback adjustment for initial load
-      setTimeout(() => {
-        updateArrowPosition();
-      }, 100); // Delay allows layout to stabilize
     };
 
-    adjustArrowPosition();
+    // Ensure position updates after full page load
+    window.addEventListener('load', onWindowLoad);
 
-    // Observe resizing changes for better responsiveness
+    // Initial positioning
+    updateArrowPosition();
+
+    // Resize observer for dynamic adjustments
     const resizeObserver = new ResizeObserver(() => {
       updateArrowPosition();
     });
-
     itemRefs.current.forEach(ref => {
       if (ref.current) {
         resizeObserver.observe(ref.current);
       }
     });
 
-    // Clean up observers on unmount
     return () => {
+      window.removeEventListener('load', onWindowLoad);
       resizeObserver.disconnect();
     };
   }, [updateArrowPosition]);
