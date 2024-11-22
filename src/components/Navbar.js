@@ -10,7 +10,12 @@ const Navbar = ({ selectedIndex, onSelect, colorIndex, onColorChange, menuItems 
   ];
 
   const arrowRef = useRef(null);
-  const itemRefs = useRef(menuItems.map(() => React.createRef()));
+  const itemRefs = useRef([]);
+
+  // Initialize refs for each menu item dynamically
+  useEffect(() => {
+    itemRefs.current = menuItems.map((_, index) => itemRefs.current[index] || React.createRef());
+  }, [menuItems]);
 
   const updateArrowPosition = useCallback(() => {
     const currentRef = itemRefs.current[selectedIndex];
@@ -24,25 +29,29 @@ const Navbar = ({ selectedIndex, onSelect, colorIndex, onColorChange, menuItems 
       arrowRef.current.style.left = `${leftPosition}px`; // Set the left position of the arrow
       arrowRef.current.style.fontSize = itemStyle.fontSize; // Ensure arrow font size matches
     }
-  }, [selectedIndex, menuItems.length]);
+  }, [selectedIndex]);
 
   useEffect(() => {
-    updateArrowPosition();
-    setTimeout(() => {
+    // Delay to ensure rendering is complete
+    const timer = setTimeout(() => {
       updateArrowPosition();
     }, 0);
+
     const resizeObserver = new ResizeObserver(() => {
       updateArrowPosition();
     });
+
     itemRefs.current.forEach(ref => {
       if (ref.current) {
         resizeObserver.observe(ref.current);
       }
     });
+
     return () => {
+      clearTimeout(timer);
       resizeObserver.disconnect();
     };
-  }, [selectedIndex, updateArrowPosition]);
+  }, [selectedIndex, menuItems, updateArrowPosition]);
 
   return (
     <div className="navbar background-change" tabIndex="0">
