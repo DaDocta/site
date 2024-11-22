@@ -14,24 +14,33 @@ const Navbar = ({ selectedIndex, onSelect, colorIndex, onColorChange, menuItems 
 
   const updateArrowPosition = useCallback(() => {
     const currentRef = itemRefs.current[selectedIndex];
-    if (currentRef && currentRef.current) {
+    if (currentRef && currentRef.current && arrowRef.current) {
       const itemStyle = window.getComputedStyle(currentRef.current);
       const itemHeight = currentRef.current.getBoundingClientRect().height;
-      const arrowHeight = arrowRef.current ? arrowRef.current.clientHeight : 0;
+      const arrowHeight = arrowRef.current.clientHeight;
       const topPosition = currentRef.current.offsetTop + itemHeight / 2 - arrowHeight / 2;
-      const leftPosition = currentRef.current.offsetLeft; // Adjust the offset for the arrow
+      const leftPosition = currentRef.current.offsetLeft;
+
+      // Apply calculated styles to the arrow
       arrowRef.current.style.top = `${topPosition}px`;
-      arrowRef.current.style.left = `${leftPosition}px`; // Set the left position of the arrow
+      arrowRef.current.style.left = `${leftPosition}px`;
       arrowRef.current.style.fontSize = itemStyle.fontSize; // Ensure arrow font size matches
     }
-  }, [selectedIndex, menuItems.length]);
+  }, [selectedIndex, menuItems]);
 
   useEffect(() => {
-    // Delay the arrow position update by 3 seconds
-    const timer = setTimeout(() => {
+    const adjustArrowPosition = () => {
       updateArrowPosition();
-    }, 3000);
 
+      // Add fallback adjustment for initial load
+      setTimeout(() => {
+        updateArrowPosition();
+      }, 100); // Delay allows layout to stabilize
+    };
+
+    adjustArrowPosition();
+
+    // Observe resizing changes for better responsiveness
     const resizeObserver = new ResizeObserver(() => {
       updateArrowPosition();
     });
@@ -42,12 +51,11 @@ const Navbar = ({ selectedIndex, onSelect, colorIndex, onColorChange, menuItems 
       }
     });
 
-    // Cleanup function
+    // Clean up observers on unmount
     return () => {
-      clearTimeout(timer); // Clear the timer on unmount or dependency change
       resizeObserver.disconnect();
     };
-  }, [selectedIndex, updateArrowPosition]);
+  }, [updateArrowPosition]);
 
   return (
     <div className="navbar background-change" tabIndex="0">
