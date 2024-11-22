@@ -1,14 +1,7 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 import '../styles/Navbar.css';
 
-const Navbar = ({ selectedIndex, onSelect, colorIndex, onColorChange, menuItems }) => {
-  const colors = [
-    'rgb(0, 255, 0)',   // Green
-    'rgb(255, 0, 255)', // Pink
-    'rgb(255, 255, 0)', // Yellow
-    'rgb(0, 255, 255)', // Cyan
-  ];
-
+const Navbar = ({ selectedIndex, onSelect, menuItems }) => {
   const arrowRef = useRef(null);
   const itemRefs = useRef([]);
 
@@ -21,18 +14,22 @@ const Navbar = ({ selectedIndex, onSelect, colorIndex, onColorChange, menuItems 
     const currentRef = itemRefs.current[selectedIndex];
     if (currentRef && currentRef.current) {
       const itemStyle = window.getComputedStyle(currentRef.current);
-      const itemHeight = currentRef.current.getBoundingClientRect().height;
+      const itemRect = currentRef.current.getBoundingClientRect();
       const arrowHeight = arrowRef.current ? arrowRef.current.clientHeight : 0;
-      const topPosition = currentRef.current.offsetTop + itemHeight / 2 - arrowHeight / 2;
-      const leftPosition = currentRef.current.offsetLeft; // Adjust the offset for the arrow
+
+      // Vertical positioning: center the arrow with the menu item
+      const topPosition = currentRef.current.offsetTop + itemRect.height / 2 - arrowHeight / 2;
+
+      // Horizontal positioning: align with the left edge of the item
+      const leftPosition = currentRef.current.offsetLeft - arrowRef.current.offsetWidth - 10; // Adjust spacing as needed
+
       arrowRef.current.style.top = `${topPosition}px`;
-      arrowRef.current.style.left = `${leftPosition}px`; // Set the left position of the arrow
+      arrowRef.current.style.left = `${leftPosition}px`;
       arrowRef.current.style.fontSize = itemStyle.fontSize; // Ensure arrow font size matches
     }
   }, [selectedIndex]);
 
   useEffect(() => {
-    // Delay to ensure rendering is complete
     const timer = setTimeout(() => {
       updateArrowPosition();
     }, 0);
@@ -56,9 +53,14 @@ const Navbar = ({ selectedIndex, onSelect, colorIndex, onColorChange, menuItems 
   return (
     <div className="navbar background-change" tabIndex="0">
       <div className="arrow" ref={arrowRef}>▶</div>
-      <div className='navbar-container'>
+      <div className="navbar-container">
         {menuItems.map((item, index) => (
-          <div key={item} ref={itemRefs.current[index]} className={`navbar-item ${selectedIndex === index ? 'active' : ''}`} onClick={() => onSelect(index)}>
+          <div
+            key={item}
+            ref={itemRefs.current[index]}
+            className={`navbar-item ${selectedIndex === index ? 'active' : ''}`}
+            onClick={() => onSelect(index)}
+          >
             {item}
           </div>
         ))}
