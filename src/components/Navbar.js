@@ -8,32 +8,40 @@ const Navbar = ({ selectedIndex, onSelect, colorIndex, onColorChange, menuItems 
   const updateArrowPosition = useCallback(() => {
     const currentRef = itemRefs.current[selectedIndex];
     if (currentRef && currentRef.current && arrowRef.current) {
-      const itemHeight = currentRef.current.offsetHeight;
-      const itemTop = currentRef.current.getBoundingClientRect().top + window.scrollY; // Account for scroll
-      const navbarTop = currentRef.current.offsetParent.offsetTop + window.scrollY;
-      const arrowHeight = arrowRef.current.offsetHeight;
+      const item = currentRef.current;
+      const itemRect = item.getBoundingClientRect();
+      const parentRect = item.offsetParent.getBoundingClientRect();
 
-      const topPosition = itemTop - navbarTop + itemHeight / 2 - arrowHeight / 2;
+      // Calculate top and left positions
+      const topPosition =
+        itemRect.top - parentRect.top + itemRect.height / 2 - arrowRef.current.offsetHeight / 2;
+      const leftPosition = itemRect.left - parentRect.left;
+
+      // Apply positions to the arrow
       arrowRef.current.style.top = `${topPosition}px`;
-      arrowRef.current.style.left = `${currentRef.current.offsetLeft}px`;
+      arrowRef.current.style.left = `${leftPosition}px`;
     }
   }, [selectedIndex]);
 
   useEffect(() => {
-    const onWindowLoad = () => {
+    const handleInitialRender = () => {
+      // Force update on load
       updateArrowPosition();
+
+      // Delay further updates until layout stabilizes
+      setTimeout(() => {
+        updateArrowPosition();
+      }, 50); // Small delay to ensure layout calculations stabilize
     };
 
-    // Ensure position updates after full page load
-    window.addEventListener('load', onWindowLoad);
+    // Update position initially and after the first render
+    handleInitialRender();
 
-    // Initial positioning
-    updateArrowPosition();
-
-    // Resize observer for dynamic adjustments
+    // Add resize observer for responsive updates
     const resizeObserver = new ResizeObserver(() => {
       updateArrowPosition();
     });
+
     itemRefs.current.forEach(ref => {
       if (ref.current) {
         resizeObserver.observe(ref.current);
@@ -41,7 +49,6 @@ const Navbar = ({ selectedIndex, onSelect, colorIndex, onColorChange, menuItems 
     });
 
     return () => {
-      window.removeEventListener('load', onWindowLoad);
       resizeObserver.disconnect();
     };
   }, [updateArrowPosition]);
