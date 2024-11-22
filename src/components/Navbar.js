@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 import '../styles/Navbar.css';
 
-const Navbar = ({ selectedIndex, onSelect, colorIndex, onColorChange, menuItems }) => {
+const Navbar = ({ selectedIndex, onSelect, menuItems }) => {
   const arrowRef = useRef(null);
   const itemRefs = useRef(menuItems.map(() => React.createRef()));
 
@@ -12,32 +12,26 @@ const Navbar = ({ selectedIndex, onSelect, colorIndex, onColorChange, menuItems 
       const itemRect = item.getBoundingClientRect();
       const parentRect = item.offsetParent.getBoundingClientRect();
 
-      // Calculate top and left positions
+      // Calculate the arrow's top position relative to its container
       const topPosition =
         itemRect.top - parentRect.top + itemRect.height / 2 - arrowRef.current.offsetHeight / 2;
-      const leftPosition = itemRect.left - parentRect.left;
 
-      // Apply positions to the arrow
       arrowRef.current.style.top = `${topPosition}px`;
-      arrowRef.current.style.left = `${leftPosition}px`;
+      arrowRef.current.style.left = `-25px`; // Keep the arrow at a fixed left position
     }
   }, [selectedIndex]);
 
   useEffect(() => {
     const handleInitialRender = () => {
-      // Force update on load
       updateArrowPosition();
-
-      // Delay further updates until layout stabilizes
       setTimeout(() => {
         updateArrowPosition();
-      }, 50); // Small delay to ensure layout calculations stabilize
+      }, 50); // Small delay to allow layout stabilization
     };
 
-    // Update position initially and after the first render
+    // Update position initially and on layout changes
     handleInitialRender();
 
-    // Add resize observer for responsive updates
     const resizeObserver = new ResizeObserver(() => {
       updateArrowPosition();
     });
@@ -54,7 +48,7 @@ const Navbar = ({ selectedIndex, onSelect, colorIndex, onColorChange, menuItems 
   }, [updateArrowPosition]);
 
   return (
-    <div className="navbar background-change" tabIndex="0">
+    <div className="navbar" tabIndex="0">
       <div className="arrow" ref={arrowRef}>▶</div>
       <div className="navbar-container">
         {menuItems.map((item, index) => (
