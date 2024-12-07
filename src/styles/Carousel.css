@@ -15,6 +15,7 @@
   flex: 1;
   cursor: pointer;
   border: 1px solid var(--main-color);
+  position: relative; /* Added to position the link within the container */
 }
 
 .slide {
@@ -51,7 +52,44 @@
   color: #000;
 }
 
+.inverted .container,
+.inverted .slide,
+.inverted .container > .slide > * {
+  background-color: var(--main-color);
+  color: #000;
+}
+
+.project-link {
+  position: absolute;
+  top: 0; /* Align to top edge */
+  right: 0; /* Align to right edge */
+  background-color: black;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s, color 0.3s;
+  z-index: 10; /* Ensure the link is on top */
+  border-left: 2px solid #000; /* Black border on the left */
+  border-bottom: 2px solid #000; /* Black border on the bottom */
+}
+
+.inverted .project-link {
+  background-color: var(--main-color); /* Dark background for inverted mode */
+  color: black; /* Adjust color to match the inverted style */
+  border-left: 2px solid black;
+  border-bottom: 2px solid black;
+}
+
+/* Responsive styles for portrait mode */
 @media (orientation: portrait) {
+  .project-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em; /* Reduced font size for icon */
+    border-radius: 0; /* Remove rounding for portrait */
+  }
+
   .carousel > .container {
     padding: 2vh;
     min-height: 30vh;
@@ -64,7 +102,7 @@
     height: 10vh;
     font-size: 6vh;
   }
-  
+
   .name {
     font-size: 4vh;
   }
@@ -74,7 +112,13 @@
   }
 }
 
+/* Landscape mode retains default styles */
 @media (orientation: landscape) {
+  .project-link {
+    padding: 1vw 2vw;
+    font-size: 1em; /* Default font size */
+  }
+
   .carousel > .container {
     padding: 2vw;
     min-height: 20vw;
@@ -83,8 +127,8 @@
   }
 
   .carousel-controls {
-    width: 5vw; /* Adjust control width for landscape */
-    height: 5vw; /* Adjust control height for landscape */
+    width: 5vw;
+    height: 5vw;
     font-size: 2vw;
   }
 

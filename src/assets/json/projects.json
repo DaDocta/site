@@ -1,22 +1,29 @@
 [
-    {
-      "name": "Read Aloud",
-      "description": "Why not have Windows read what you highlight?",
-      "progress": 92
-    },
-    {
-      "name": "A.D.A.M.",
-      "description": "Audio Decypther And Manager.",
-      "progress": 76
-    },
-    {
-      "name": "Legacy Device",
-      "description": "Now you can work on your computer even when six feet under.",
-      "progress": 34
-    },
-    {
-      "name": "The 'Gossipel'",
-      "description": "A website dedicated to having everyone hear the good news!",
-      "progress": 12
+  {
+    "name": "Star Chart",
+    "description": "A web portfolio for people who I know?",
+    "progress": 100,
+    "link": {
+      "type": "site",
+      "url": "https://starchart.site"
     }
-  ]
+  },
+  {
+    "name": "Celestial Center",
+    "description": "Store to sell some my products over the years.",
+    "progress": 86,
+    "link": {
+      "type": "site",
+      "url": "https://celestialcenter.site"
+    }
+  },
+  {
+    "name": "C.O.S.M.O.",
+    "description": "Core Operating System for Machine Optimization.",
+    "progress": 94,
+    "link": {
+      "type": "download",
+      "url": "/downloads/COSMO.zip"
+    }
+  }
+]

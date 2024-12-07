@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { FaDownload, FaLink } from 'react-icons/fa';
 import '../styles/Carousel.css';
 
 const Carousel = ({ projects, canClick }) => {
@@ -42,6 +43,8 @@ const Carousel = ({ projects, canClick }) => {
         return <div>No projects available</div>;
     }
 
+    const { name, description, progress, link } = projects[currentIndex];
+
     return (
         <div className={`carousel ${isClicked ? 'inverted' : ''}`}>
             <div className="carousel-controls previous">
@@ -49,14 +52,29 @@ const Carousel = ({ projects, canClick }) => {
             </div>
             <div className={`container`} onClick={handleClick}>
                 {isClicked ? (
-                    <div className='slide'>
-                        <p className='name'>{projects[currentIndex].name}</p>
-                        <p className='description'>{projects[currentIndex].description}</p>
+                    <div className="slide">
+                        <p className="name">{name}</p>
+                        <p className="description">{description}</p>
+                        {link && (
+                            <a
+                                href={link.url}
+                                target={link.type === 'site' ? '_blank' : '_self'}
+                                download={link.type === 'download' ? true : undefined}
+                                className="project-link"
+                                title={link.type === 'download' ? 'Download file' : 'Visit site'}
+                            >
+                                {isLandscape ? (
+                                    link.type === 'download' ? 'Download here' : 'Visit site'
+                                ) : (
+                                    link.type === 'download' ? <FaDownload /> : <FaLink />
+                                )}
+                            </a>
+                        )}
                     </div>
                 ) : (
-                    <div className='slide'>
-                        <p className='name'>{projects[currentIndex].name}</p>
-                        <p className='progress'>Progress: {projects[currentIndex].progress}%</p>
+                    <div className="slide">
+                        <p className="name">{name}</p>
+                        <p className="progress">Progress: {progress}%</p>
                     </div>
                 )}
             </div>
