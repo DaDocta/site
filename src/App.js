@@ -173,18 +173,18 @@ const App = () => {
   const handleTouchEnd = (event) => {
     const deltaX = touchStartX.current - touchEndX.current;
     const deltaY = touchStartY.current - touchEndY.current;
-
+  
+    // Only allow horizontal swipes
     const isSwipeHorizontal = Math.abs(deltaX) > swipeThreshold && Math.abs(deltaY) < 50;
-    const isSwipeVertical = Math.abs(deltaY) > swipeThreshold && Math.abs(deltaX) < 50;
     const isTap = Math.abs(deltaX) < tapThreshold && Math.abs(deltaY) < tapThreshold;
-
+  
     // Detect if this touch was on an interactive element
     const target = event.target;
     const isInteractive =
       target.tagName === 'BUTTON' ||
       target.tagName === 'A' ||
       target.closest('.interactive');
-
+  
     if (isSwipeHorizontal && !isInteractive) {
       if (deltaX > 0) {
         navigateToNextSection(); // Swipe left
@@ -193,16 +193,7 @@ const App = () => {
       }
       return; // Prevent further tap handling
     }
-
-    if (isSwipeVertical && !isInteractive) {
-      if (deltaY > 0) {
-        navigateToNextSection(); // Swipe up
-      } else {
-        navigateToPreviousSection(); // Swipe down
-      }
-      return; // Prevent further tap handling
-    }
-
+  
     if (isTap) {
       // Handle tap for double-tap detection
       const currentTime = Date.now();
@@ -215,6 +206,7 @@ const App = () => {
       }
     }
   };
+  
 
   return (
     <div
