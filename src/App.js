@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Navbar from './components/Navbar';
 import UpButton from './components/UpButton';
 import DownButton from './components/DownButton';
@@ -10,7 +10,6 @@ import Contact from './sections/Contact';
 import Loading from './sections/Loading';
 import './styles/App.css';
 
-
 const App = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isPortrait, setIsPortrait] = useState(window.innerHeight > window.innerWidth);
@@ -18,15 +17,23 @@ const App = () => {
   const [colorIndex, setColorIndex] = useState(0);
   const loadingTimeout = useRef(null); // Use ref to store timeout ID
   const menuItems = ['Home', 'About', 'Projects', 'Contact']; //'Partnerships'
+
   const touchStartX = useRef(0);
-  const touchEndX = useRef(0);
   const touchStartY = useRef(0);
+  const touchEndX = useRef(0);
   const touchEndY = useRef(0);
 
+  // Double-tap related refs
+  const lastTapTime = useRef(0);
+  const doubleTapDelay = 300; // Maximum delay between taps for double-tap
+
+  const swipeThreshold = 100; // Minimum distance for a swipe
+  const tapThreshold = 10; // Maximum movement allowed for a tap
+
   const handleResize = () => {
-    const isPortrait = window.innerHeight > window.innerWidth;
-    setIsPortrait(isPortrait);
-    if (isPortrait) {
+    const isPortraitMode = window.innerHeight > window.innerWidth;
+    setIsPortrait(isPortraitMode);
+    if (isPortraitMode) {
       document.body.style.overflow = 'auto';
       document.documentElement.style.overflow = 'auto';
     } else {
@@ -89,15 +96,15 @@ const App = () => {
     return colors[index];
   };
 
-  const navigateToNextColor = () => {
+  const navigateToNextColor = useCallback(() => {
     setColorIndex((prevIndex) => (prevIndex + 1) % 4); // 4 is the number of colors
-  };
+  }, []);
 
-  const navigateToPreviousColor = () => {
+  const navigateToPreviousColor = useCallback(() => {
     setColorIndex((prevIndex) => (prevIndex - 1 + 4) % 4); // 4 is the number of colors
-  };
+  }, []);
 
-  const setNewIndex = (newIndex) => {
+  const setNewIndex = useCallback((newIndex) => {
     if (loadingTimeout.current) {
       clearTimeout(loadingTimeout.current);
     }
@@ -106,25 +113,28 @@ const App = () => {
     loadingTimeout.current = setTimeout(() => {
       setIsLoading(false);
     }, 1000);
-  };
+  }, []);
 
-  const navigateToNextSection = () => {
+  const navigateToNextSection = useCallback(() => {
     setNewIndex((prevIndex) => (prevIndex + 1) % menuItems.length);
-  };
+  }, [menuItems.length, setNewIndex]);
 
-  const navigateToSection = (sectionName) => {
-    setNewIndex(menuItems.indexOf(sectionName));
-  };
+  const navigateToSection = useCallback((sectionName) => {
+    const index = menuItems.indexOf(sectionName);
+    if (index !== -1 && index !== selectedIndex) {
+      setNewIndex(index);
+    }
+  }, [menuItems, selectedIndex, setNewIndex]);
 
-  const navigateToPreviousSection = () => {
+  const navigateToPreviousSection = useCallback(() => {
     setNewIndex((prevIndex) => (prevIndex - 1 + menuItems.length) % menuItems.length);
-  };
+  }, [menuItems.length, setNewIndex]);
 
-  const handleNavSelect = (index) => {
+  const handleNavSelect = useCallback((index) => {
     if (index !== selectedIndex) {
       setNewIndex(index);
     }
-  };
+  }, [selectedIndex, setNewIndex]);
 
   const renderSection = () => {
     if (isLoading) {
@@ -146,35 +156,65 @@ const App = () => {
     }
   };
 
-  
-
   const handleTouchStart = (event) => {
+    if (event.touches.length > 1) return; // Ignore multi-touch
     touchStartX.current = event.touches[0].clientX;
     touchStartY.current = event.touches[0].clientY;
     touchEndX.current = touchStartX.current; // Reset touchEndX to the start position
     touchEndY.current = touchStartY.current; // Reset touchEndY to the start position
   };
-  
+
   const handleTouchMove = (event) => {
+    if (event.touches.length > 1) return; // Ignore multi-touch
     touchEndX.current = event.touches[0].clientX;
     touchEndY.current = event.touches[0].clientY;
   };
-  
-  const handleTouchEnd = () => {
+
+  const handleTouchEnd = (event) => {
     const deltaX = touchStartX.current - touchEndX.current;
     const deltaY = touchStartY.current - touchEndY.current;
-    const horizontalSwipeDistance = 100; // Minimum distance for a swipe
-    const verticalSwipeDistance = 50; // Maximum vertical movement allowed
-  
-    if (Math.abs(deltaX) > horizontalSwipeDistance && Math.abs(deltaY) < verticalSwipeDistance) {
+
+    const isSwipeHorizontal = Math.abs(deltaX) > swipeThreshold && Math.abs(deltaY) < 50;
+    const isSwipeVertical = Math.abs(deltaY) > swipeThreshold && Math.abs(deltaX) < 50;
+    const isTap = Math.abs(deltaX) < tapThreshold && Math.abs(deltaY) < tapThreshold;
+
+    // Detect if this touch was on an interactive element
+    const target = event.target;
+    const isInteractive =
+      target.tagName === 'BUTTON' ||
+      target.tagName === 'A' ||
+      target.closest('.interactive');
+
+    if (isSwipeHorizontal && !isInteractive) {
       if (deltaX > 0) {
-        navigateToNextColor();
+        navigateToNextSection(); // Swipe left
       } else {
-        navigateToPreviousColor();
+        navigateToPreviousSection(); // Swipe right
+      }
+      return; // Prevent further tap handling
+    }
+
+    if (isSwipeVertical && !isInteractive) {
+      if (deltaY > 0) {
+        navigateToNextSection(); // Swipe up
+      } else {
+        navigateToPreviousSection(); // Swipe down
+      }
+      return; // Prevent further tap handling
+    }
+
+    if (isTap) {
+      // Handle tap for double-tap detection
+      const currentTime = Date.now();
+      if (currentTime - lastTapTime.current < doubleTapDelay) {
+        // Double-tap detected
+        navigateToNextColor();
+        lastTapTime.current = 0; // Reset to prevent multiple triggers
+      } else {
+        lastTapTime.current = currentTime; // Record time of the first tap
       }
     }
   };
-  
 
   return (
     <div
