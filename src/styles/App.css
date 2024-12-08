@@ -23,11 +23,15 @@ body, html {
 .landscape-section {
   width: 67vw;
   padding: 20px;
+  min-height: 100vh;
+  overflow-y: scroll;
 }
 
 .portrait-section {
   height: 80vh; /* Adjusted height for portrait section */
   padding: 20px;
+  /*min-height: 100vh;*/
+  overflow-y: scroll;
 }
 
 @media (orientation: landscape) {

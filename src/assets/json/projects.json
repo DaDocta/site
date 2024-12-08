@@ -1,7 +1,7 @@
 [
   {
     "name": "Star Chart",
-    "description": "A web portfolio for people who I know?",
+    "description": "A web portfolio for every person I know.",
     "progress": 100,
     "link": {
       "type": "site",
@@ -10,7 +10,7 @@
   },
   {
     "name": "Celestial Center",
-    "description": "Store to sell some my products over the years.",
+    "description": "A ecommerce platform selling some my products over the years.",
     "progress": 86,
     "link": {
       "type": "site",
