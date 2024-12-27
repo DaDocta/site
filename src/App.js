@@ -8,6 +8,7 @@ import Projects from './sections/Projects';
 import Partnerships from './sections/Partnerships';
 import Contact from './sections/Contact';
 import Loading from './sections/Loading';
+import HostedSite from './sections/HostedSite';
 import './styles/App.css';
 
 
@@ -177,29 +178,34 @@ const App = () => {
   
 
   return (
-    <div
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-    >
-      {isPortrait ? (
-        <div className='portrait'>
-          <UpButton navigateToPreviousSection={navigateToPreviousSection} onClick={navigateToPreviousSection} />
-          <div className="portrait-section">{renderSection()}</div>
-          <DownButton navigateToNextSection={navigateToNextSection} onClick={navigateToNextSection} />
-        </div>
-      ) : (
-        <div className='landscape'>
-          <Navbar 
-            selectedIndex={selectedIndex} 
-            onSelect={handleNavSelect} 
-            colorIndex={colorIndex}
-            menuItems={menuItems}
-          />
-          <div className="landscape-section">{renderSection()}</div>
-        </div>
-      )}
-    </div>
+    <Router>
+      <div
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        <Switch>
+          <Route path="/starchart">
+            <HostedSite url="https://starchart.site" />
+          </Route>
+          {/* Add more hosted site routes here */}
+          <Route path="/">
+            {isPortrait ? (
+              <div className="portrait">
+                <UpButton onClick={() => setSelectedIndex((prev) => (prev - 1 + menuItems.length) % menuItems.length)} />
+                <div className="portrait-section">{renderSection()}</div>
+                <DownButton onClick={() => setSelectedIndex((prev) => (prev + 1) % menuItems.length)} />
+              </div>
+            ) : (
+              <div className="landscape">
+                <Navbar selectedIndex={selectedIndex} onSelect={setSelectedIndex} colorIndex={colorIndex} menuItems={menuItems} />
+                <div className="landscape-section">{renderSection()}</div>
+              </div>
+            )}
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 };
 
