@@ -22,6 +22,7 @@ const App = () => {
   const touchStartY = useRef(0);
   const touchEndY = useRef(0);
   const lastTapTime = useRef(0);
+  const doubleTapTimeout = useRef(null);
 
   const handleResize = () => {
     const isPortrait = window.innerHeight > window.innerWidth;
@@ -47,12 +48,26 @@ const App = () => {
     };
   }, []);
 
+  useEffect(() => {
+    document.documentElement.style.setProperty('--main-color', getColor(colorIndex));
+  }, [colorIndex]);
+
+  const getColor = (index) => {
+    const colors = [
+      'rgb(0, 255, 0)',   // Green
+      'rgb(255, 0, 255)', // Pink
+      'rgb(255, 255, 0)', // Yellow
+      'rgb(0, 255, 255)', // Cyan
+    ];
+    return colors[index];
+  };
+
   const navigateToNextColor = () => {
-    setColorIndex((prevIndex) => (prevIndex + 1) % 4);
+    setColorIndex((prevIndex) => (prevIndex + 1) % 4); // 4 is the number of colors
   };
 
   const navigateToPreviousColor = () => {
-    setColorIndex((prevIndex) => (prevIndex - 1 + 4) % 4);
+    setColorIndex((prevIndex) => (prevIndex - 1 + 4) % 4); // 4 is the number of colors
   };
 
   const setNewIndex = (newIndex) => {
@@ -78,12 +93,18 @@ const App = () => {
     const now = Date.now();
     const timeSinceLastTap = now - lastTapTime.current;
 
+    // Double-tap detection
     if (timeSinceLastTap < 300) {
-      navigateToNextColor(); // Double-tap detected
+      if (doubleTapTimeout.current) {
+        clearTimeout(doubleTapTimeout.current);
+        doubleTapTimeout.current = null;
+      }
+      navigateToNextColor();
     }
 
     lastTapTime.current = now;
 
+    // Record start position for swipe detection
     touchStartX.current = event.touches[0].clientX;
     touchStartY.current = event.touches[0].clientY;
     touchEndX.current = touchStartX.current;
@@ -96,18 +117,24 @@ const App = () => {
   };
 
   const handleTouchEnd = () => {
-    const deltaX = touchStartX.current - touchEndX.current;
-    const deltaY = touchStartY.current - touchEndY.current;
-    const horizontalSwipeDistance = 100;
-    const verticalSwipeDistance = 50;
+    // Delay swipe detection slightly to prioritize double-tap detection
+    doubleTapTimeout.current = setTimeout(() => {
+      const deltaX = touchStartX.current - touchEndX.current;
+      const deltaY = touchStartY.current - touchEndY.current;
+      const horizontalSwipeDistance = 100; // Minimum swipe distance horizontally
+      const verticalSwipeDistance = 50;   // Maximum vertical movement for horizontal swipes
 
-    if (Math.abs(deltaX) > horizontalSwipeDistance && Math.abs(deltaY) < verticalSwipeDistance) {
-      if (deltaX > 0) {
-        navigateToNextSection(); // Swipe left
-      } else {
-        navigateToPreviousSection(); // Swipe right
+      if (Math.abs(deltaX) > horizontalSwipeDistance && Math.abs(deltaY) < verticalSwipeDistance) {
+        if (deltaX > 0) {
+          navigateToNextSection(); // Swipe left
+        } else {
+          navigateToPreviousSection(); // Swipe right
+        }
       }
-    }
+
+      clearTimeout(doubleTapTimeout.current); // Clean up timeout
+      doubleTapTimeout.current = null;
+    }, 300); // Wait for double-tap detection before triggering swipe logic
   };
 
   const renderSection = () => {
