@@ -22,7 +22,6 @@ const App = () => {
   const touchStartY = useRef(0);
   const touchEndY = useRef(0);
   const lastTapTime = useRef(0);
-  const doubleTapTimeout = useRef(null);
 
   const handleResize = () => {
     const isPortrait = window.innerHeight > window.innerWidth;
@@ -95,11 +94,7 @@ const App = () => {
 
     // Double-tap detection
     if (timeSinceLastTap < 300) {
-      if (doubleTapTimeout.current) {
-        clearTimeout(doubleTapTimeout.current);
-        doubleTapTimeout.current = null;
-      }
-      navigateToNextColor();
+      navigateToNextColor(); // Double-tap detected
     }
 
     lastTapTime.current = now;
@@ -107,7 +102,7 @@ const App = () => {
     // Record start position for swipe detection
     touchStartX.current = event.touches[0].clientX;
     touchStartY.current = event.touches[0].clientY;
-    touchEndX.current = touchStartX.current;
+    touchEndX.current = touchStartX.current; // Reset end positions
     touchEndY.current = touchStartY.current;
   };
 
@@ -117,24 +112,19 @@ const App = () => {
   };
 
   const handleTouchEnd = () => {
-    // Delay swipe detection slightly to prioritize double-tap detection
-    doubleTapTimeout.current = setTimeout(() => {
-      const deltaX = touchStartX.current - touchEndX.current;
-      const deltaY = touchStartY.current - touchEndY.current;
-      const horizontalSwipeDistance = 100; // Minimum swipe distance horizontally
-      const verticalSwipeDistance = 50;   // Maximum vertical movement for horizontal swipes
+    const deltaX = touchStartX.current - touchEndX.current;
+    const deltaY = touchStartY.current - touchEndY.current;
+    const horizontalSwipeDistance = 100; // Minimum swipe distance horizontally
+    const verticalSwipeDistance = 50;   // Maximum vertical movement for horizontal swipes
 
-      if (Math.abs(deltaX) > horizontalSwipeDistance && Math.abs(deltaY) < verticalSwipeDistance) {
-        if (deltaX > 0) {
-          navigateToNextSection(); // Swipe left
-        } else {
-          navigateToPreviousSection(); // Swipe right
-        }
+    // Swipe detection
+    if (Math.abs(deltaX) > horizontalSwipeDistance && Math.abs(deltaY) < verticalSwipeDistance) {
+      if (deltaX > 0) {
+        navigateToNextSection(); // Swipe left
+      } else {
+        navigateToPreviousSection(); // Swipe right
       }
-
-      clearTimeout(doubleTapTimeout.current); // Clean up timeout
-      doubleTapTimeout.current = null;
-    }, 300); // Wait for double-tap detection before triggering swipe logic
+    }
   };
 
   const renderSection = () => {
