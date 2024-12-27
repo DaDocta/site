@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { BrowserRouter as Router, Route, Switch, useLocation } from 'react-router-dom';
+
 import Navbar from './components/Navbar';
 import UpButton from './components/UpButton';
 import DownButton from './components/DownButton';
