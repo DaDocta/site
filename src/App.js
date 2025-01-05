@@ -5,7 +5,6 @@ import DownButton from './components/DownButton';
 import Home from './sections/Home';
 import About from './sections/About';
 import Projects from './sections/Projects';
-import Partnerships from './sections/Partnerships';
 import Contact from './sections/Contact';
 import Loading from './sections/Loading';
 import './styles/App.css';
@@ -16,13 +15,17 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [colorIndex, setColorIndex] = useState(0);
   const loadingTimeout = useRef(null);
-  const mainContainerRef = useRef(null); // Reference to main container
   const menuItems = ['Home', 'About', 'Projects', 'Contact'];
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+  const touchStartY = useRef(0);
+  const touchEndY = useRef(0);
+  const lastTapTime = useRef(0);
 
   const handleResize = () => {
-    const portrait = window.innerHeight > window.innerWidth;
-    setIsPortrait(portrait);
-    if (portrait) {
+    const isPortraitCheck = window.innerHeight > window.innerWidth;
+    setIsPortrait(isPortraitCheck);
+    if (isPortraitCheck) {
       document.body.style.overflow = 'auto';
       document.documentElement.style.overflow = 'auto';
     } else {
@@ -47,42 +50,35 @@ const App = () => {
     document.documentElement.style.setProperty('--main-color', getColor(colorIndex));
   }, [colorIndex]);
 
+  // NEW: Keyboard navigation logic
   useEffect(() => {
-    const handleKeyDown = (event) => {
-      const portraitNow = window.innerHeight > window.innerWidth;
-      if (!portraitNow) return;
-
-      switch (event.key) {
-        case 'ArrowUp':
-          navigateToPreviousSection();
-          break;
-        case 'ArrowDown':
-          navigateToNextSection();
-          break;
-        case 'ArrowLeft':
-          navigateToPreviousColor();
-          break;
-        case 'ArrowRight':
-          navigateToNextColor();
-          break;
-        default:
-          break;
+    const handleKeyDown = (e) => {
+      // Only apply arrow key logic in landscape
+      if (!isPortrait) {
+        switch (e.key) {
+          case 'ArrowUp':
+            navigateToPreviousSection();
+            break;
+          case 'ArrowDown':
+            navigateToNextSection();
+            break;
+          case 'ArrowLeft':
+            navigateToPreviousColor();
+            break;
+          case 'ArrowRight':
+            navigateToNextColor();
+            break;
+          default:
+            break;
+        }
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
-
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
-
-  // Focus main container on mount
-  useEffect(() => {
-    if (mainContainerRef.current) {
-      mainContainerRef.current.focus();
-    }
-  }, []);
+  }, [isPortrait]);
 
   const getColor = (index) => {
     const colors = [
@@ -95,11 +91,11 @@ const App = () => {
   };
 
   const navigateToNextColor = () => {
-    setColorIndex((prevIndex) => (prevIndex + 1) % 4);
+    setColorIndex((prevIndex) => (prevIndex + 1) % 4); // 4 is the number of colors
   };
 
   const navigateToPreviousColor = () => {
-    setColorIndex((prevIndex) => (prevIndex - 1 + 4) % 4);
+    setColorIndex((prevIndex) => (prevIndex - 1 + 4) % 4); // 4 is the number of colors
   };
 
   const setNewIndex = (newIndex) => {
@@ -119,6 +115,45 @@ const App = () => {
 
   const navigateToPreviousSection = () => {
     setNewIndex((prevIndex) => (prevIndex - 1 + menuItems.length) % menuItems.length);
+  };
+
+  const handleTouchStart = (event) => {
+    const now = Date.now();
+    const timeSinceLastTap = now - lastTapTime.current;
+
+    // Double-tap detection
+    if (timeSinceLastTap < 300) {
+      navigateToNextColor(); // Double-tap detected
+    }
+
+    lastTapTime.current = now;
+
+    // Record start position for swipe detection
+    touchStartX.current = event.touches[0].clientX;
+    touchStartY.current = event.touches[0].clientY;
+    touchEndX.current = touchStartX.current; // Reset end positions
+    touchEndY.current = touchStartY.current;
+  };
+
+  const handleTouchMove = (event) => {
+    touchEndX.current = event.touches[0].clientX;
+    touchEndY.current = event.touches[0].clientY;
+  };
+
+  const handleTouchEnd = () => {
+    const deltaX = touchStartX.current - touchEndX.current;
+    const deltaY = touchStartY.current - touchEndY.current;
+    const horizontalSwipeDistance = 100; // Minimum swipe distance horizontally
+    const verticalSwipeDistance = 50;   // Maximum vertical movement for horizontal swipes
+
+    // Swipe detection
+    if (Math.abs(deltaX) > horizontalSwipeDistance && Math.abs(deltaY) < verticalSwipeDistance) {
+      if (deltaX > 0) {
+        navigateToNextSection(); // Swipe left
+      } else {
+        navigateToPreviousSection(); // Swipe right
+      }
+    }
   };
 
   const renderSection = () => {
@@ -141,35 +176,9 @@ const App = () => {
 
   return (
     <div
-      ref={mainContainerRef}
-      tabIndex="0"
-      onTouchStart={(event) => {
-        const now = Date.now();
-        const timeSinceLastTap = now - lastTapTime.current;
-
-        if (timeSinceLastTap < 300) {
-          navigateToNextColor(); // Double-tap detected
-        }
-
-        lastTapTime.current = now;
-        touchStartX.current = event.touches[0].clientX;
-        touchStartY.current = event.touches[0].clientY;
-      }}
-      onTouchMove={(event) => {
-        touchEndX.current = event.touches[0].clientX;
-        touchEndY.current = event.touches[0].clientY;
-      }}
-      onTouchEnd={() => {
-        const deltaX = touchStartX.current - touchEndX.current;
-        const deltaY = touchStartY.current - touchEndY.current;
-        if (Math.abs(deltaX) > 100 && Math.abs(deltaY) < 50) {
-          if (deltaX > 0) {
-            navigateToNextSection(); // Swipe left
-          } else {
-            navigateToPreviousSection(); // Swipe right
-          }
-        }
-      }}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
       {isPortrait ? (
         <div className="portrait">
