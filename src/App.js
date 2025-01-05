@@ -5,6 +5,7 @@ import DownButton from './components/DownButton';
 import Home from './sections/Home';
 import About from './sections/About';
 import Projects from './sections/Projects';
+import Partnerships from './sections/Partnerships';
 import Contact from './sections/Contact';
 import Loading from './sections/Loading';
 import './styles/App.css';
@@ -16,16 +17,18 @@ const App = () => {
   const [colorIndex, setColorIndex] = useState(0);
   const loadingTimeout = useRef(null);
   const menuItems = ['Home', 'About', 'Projects', 'Contact'];
+
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
   const touchStartY = useRef(0);
   const touchEndY = useRef(0);
   const lastTapTime = useRef(0);
 
+  // Handle screen orientation
   const handleResize = () => {
-    const isPortrait = window.innerHeight > window.innerWidth;
-    setIsPortrait(isPortrait);
-    if (isPortrait) {
+    const portrait = window.innerHeight > window.innerWidth;
+    setIsPortrait(portrait);
+    if (portrait) {
       document.body.style.overflow = 'auto';
       document.documentElement.style.overflow = 'auto';
     } else {
@@ -46,14 +49,17 @@ const App = () => {
     };
   }, []);
 
+  // Update CSS variable for main color
   useEffect(() => {
     document.documentElement.style.setProperty('--main-color', getColor(colorIndex));
   }, [colorIndex]);
 
+  // Attach keydown listener *once*, check portrait mode inside the handler
   useEffect(() => {
     const handleKeyDown = (event) => {
-      const isPortraitMode = window.innerHeight > window.innerWidth;
-      if (!isPortraitMode) return; // Only respond to keys in portrait mode
+      // Check if we are in portrait mode at the time of key press
+      const portraitNow = window.innerHeight > window.innerWidth;
+      if (!portraitNow) return;
 
       switch (event.key) {
         case 'ArrowUp':
@@ -91,11 +97,11 @@ const App = () => {
   };
 
   const navigateToNextColor = () => {
-    setColorIndex((prevIndex) => (prevIndex + 1) % 4); // 4 is the number of colors
+    setColorIndex((prevIndex) => (prevIndex + 1) % 4);
   };
 
   const navigateToPreviousColor = () => {
-    setColorIndex((prevIndex) => (prevIndex - 1 + 4) % 4); // 4 is the number of colors
+    setColorIndex((prevIndex) => (prevIndex - 1 + 4) % 4);
   };
 
   const setNewIndex = (newIndex) => {
@@ -117,6 +123,7 @@ const App = () => {
     setNewIndex((prevIndex) => (prevIndex - 1 + menuItems.length) % menuItems.length);
   };
 
+  // Touch / swipe handling
   const handleTouchStart = (event) => {
     const now = Date.now();
     const timeSinceLastTap = now - lastTapTime.current;
@@ -131,7 +138,7 @@ const App = () => {
     // Record start position for swipe detection
     touchStartX.current = event.touches[0].clientX;
     touchStartY.current = event.touches[0].clientY;
-    touchEndX.current = touchStartX.current; // Reset end positions
+    touchEndX.current = touchStartX.current;
     touchEndY.current = touchStartY.current;
   };
 
@@ -143,10 +150,9 @@ const App = () => {
   const handleTouchEnd = () => {
     const deltaX = touchStartX.current - touchEndX.current;
     const deltaY = touchStartY.current - touchEndY.current;
-    const horizontalSwipeDistance = 100; // Minimum swipe distance horizontally
-    const verticalSwipeDistance = 50;   // Maximum vertical movement for horizontal swipes
+    const horizontalSwipeDistance = 100;
+    const verticalSwipeDistance = 50;
 
-    // Swipe detection
     if (Math.abs(deltaX) > horizontalSwipeDistance && Math.abs(deltaY) < verticalSwipeDistance) {
       if (deltaX > 0) {
         navigateToNextSection(); // Swipe left
@@ -156,6 +162,7 @@ const App = () => {
     }
   };
 
+  // Render the appropriate section component
   const renderSection = () => {
     if (isLoading) {
       return <Loading />;
@@ -176,6 +183,7 @@ const App = () => {
 
   return (
     <div
+      tabIndex="0"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
