@@ -5,7 +5,6 @@ import DownButton from './components/DownButton';
 import Home from './sections/Home';
 import About from './sections/About';
 import Projects from './sections/Projects';
-import Partnerships from './sections/Partnerships';
 import Contact from './sections/Contact';
 import Loading from './sections/Loading';
 import './styles/App.css';
@@ -53,30 +52,33 @@ const App = () => {
 
   useEffect(() => {
     const handleKeyDown = (event) => {
+      const isPortraitMode = window.innerHeight > window.innerWidth;
+      if (!isPortraitMode) return; // Only respond to keys in portrait mode
+
       switch (event.key) {
         case 'ArrowUp':
-          if (isPortrait) navigateToPreviousSection();
+          navigateToPreviousSection();
           break;
         case 'ArrowDown':
-          if (isPortrait) navigateToNextSection();
+          navigateToNextSection();
           break;
         case 'ArrowLeft':
-          if (isPortrait) navigateToPreviousColor();
+          navigateToPreviousColor();
           break;
         case 'ArrowRight':
-          if (isPortrait) navigateToNextColor();
+          navigateToNextColor();
           break;
         default:
           break;
       }
     };
-  
+
     window.addEventListener('keydown', handleKeyDown);
-  
+
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isPortrait]);  
+  }, []);
 
   const getColor = (index) => {
     const colors = [
