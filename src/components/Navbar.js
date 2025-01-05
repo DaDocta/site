@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useCallback, useLayoutEffect } from 'react';
 import '../styles/Navbar.css';
 
-const Navbar = ({ selectedIndex, onSelect, colorIndex, menuItems }) => {
+const Navbar = ({ selectedIndex, onSelect, colorIndex, onColorChange, menuItems }) => {
   const colors = [
     'rgb(0, 255, 0)',   // Green
     'rgb(255, 0, 255)', // Pink
@@ -26,14 +26,13 @@ const Navbar = ({ selectedIndex, onSelect, colorIndex, menuItems }) => {
   }, [selectedIndex]);
 
   useLayoutEffect(() => {
-    updateArrowPosition(); 
+    updateArrowPosition(); // Run once after render to set the initial position
   }, [updateArrowPosition]);
 
   useEffect(() => {
     const handleResize = () => updateArrowPosition();
     const resizeObserver = new ResizeObserver(() => updateArrowPosition());
-
-    itemRefs.current.forEach((ref) => {
+    itemRefs.current.forEach(ref => {
       if (ref.current) resizeObserver.observe(ref.current);
     });
 
