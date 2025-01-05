@@ -51,6 +51,33 @@ const App = () => {
     document.documentElement.style.setProperty('--main-color', getColor(colorIndex));
   }, [colorIndex]);
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      switch (event.key) {
+        case 'ArrowUp':
+          if (isPortrait) navigateToPreviousSection();
+          break;
+        case 'ArrowDown':
+          if (isPortrait) navigateToNextSection();
+          break;
+        case 'ArrowLeft':
+          if (isPortrait) navigateToPreviousColor();
+          break;
+        case 'ArrowRight':
+          if (isPortrait) navigateToNextColor();
+          break;
+        default:
+          break;
+      }
+    };
+  
+    window.addEventListener('keydown', handleKeyDown);
+  
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isPortrait]);  
+
   const getColor = (index) => {
     const colors = [
       'rgb(0, 255, 0)',   // Green
