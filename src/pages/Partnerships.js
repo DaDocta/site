@@ -1,7 +1,6 @@
 import React from 'react';
 import '../styles/Partnerships.css';
 import TypingText from '../components/TypingText.js';
-import AsciiWords from '../components/AsciiWords.js';
 
 const Partnerships = ({ navigateToSection }) => {
   return (

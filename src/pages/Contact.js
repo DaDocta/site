@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Contact.css';
 import TypingText from '../components/TypingText.js';
-import AsciiWords from '../components/AsciiWords.js';
 
 const Contact = () => {
   const [isPortrait, setIsPortrait] = useState(window.innerHeight > window.innerWidth);

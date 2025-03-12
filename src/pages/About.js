@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/About.css';
 import TypingText from '../components/TypingText.js';
-import AsciiWords from '../components/AsciiWords.js';
-import imagine from '../assets/download.jpg';
 import resume from '../assets/resume.pdf';
 
 const About = () => {
