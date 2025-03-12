@@ -1,0 +1,38 @@
+[
+    {
+      "name": "Star Chart",
+      "description": "Why not have Windows read what you highlight?",
+      "progress": 92,
+      "link": "https://starchart.site/"
+    },
+    {
+      "name": "Celestial Center",
+      "description": "Audio Decypther And Manager.",
+      "progress": 76,
+      "link": "https://celestialcenter.store/"
+    },
+    {
+      "name": "Heavenly Hub",
+      "description": "A website dedicated to having everyone hear the good news!",
+      "progress": 12,
+      "link": "https://heavenlyhub.org/"
+    },
+    {
+      "name": "C.O.S.M.O.",
+      "description": "A website dedicated to having everyone hear the good news!",
+      "progress": 12,
+      "link": ""
+    },
+    {
+      "name": "A.S.T.R.A.",
+      "description": "A website dedicated to having everyone hear the good news!",
+      "progress": 97,
+      "link": ""
+    },
+    {
+      "name": "Legacy Device",
+      "description": "Now you can work on your computer even when six feet under.",
+      "progress": 12,
+      "link": ""
+    }
+  ]

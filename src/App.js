@@ -2,11 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import Navbar from './components/Navbar';
 import UpButton from './components/UpButton';
 import DownButton from './components/DownButton';
-import Home from './sections/Home';
-import About from './sections/About';
-import Projects from './sections/Projects';
-import Contact from './sections/Contact';
-import Loading from './sections/Loading';
+import Home from './pages/Home';
+import About from './pages/About';
+import Projects from './pages/Projects';
+import Contact from './pages/Contact';
+import Loading from './pages/Loading';
 import './styles/App.css';
 
 const App = () => {

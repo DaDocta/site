@@ -48,17 +48,23 @@ const Carousel = ({ projects, canClick }) => {
                 <a onClick={goToPrevious}>{'<'}</a>
             </div>
             <div className={`container`} onClick={handleClick}>
-                {isClicked ? (
-                    <div className='slide'>
-                        <p className='name'>{projects[currentIndex].name}</p>
-                        <p className='description'>{projects[currentIndex].description}</p>
-                    </div>
-                ) : (
-                    <div className='slide'>
-                        <p className='name'>{projects[currentIndex].name}</p>
-                        <p className='progress'>Progress: {projects[currentIndex].progress}%</p>
-                    </div>
-                )}
+            {isClicked ? (
+                <div className='slide'>
+                    <p className='name'>{projects[currentIndex].name}</p>
+                    <p className='description'>{projects[currentIndex].description}</p>
+                    {projects[currentIndex].link && (
+                        <a href={projects[currentIndex].link} target="_blank" rel="noopener noreferrer" className="visit-link">
+                            Visit Here
+                        </a>
+                    )}
+                </div>
+            ) : (
+                <div className='slide'>
+                    <p className='name'>{projects[currentIndex].name}</p>
+                    <p className='progress'>Progress: {projects[currentIndex].progress}%</p>
+                </div>
+            )}
+
             </div>
             <div className="carousel-controls next">
                 <a onClick={goToNext}>{'>'}</a>

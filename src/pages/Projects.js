@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/Projects.css';
+import projectData from '../data/json/projects.json';
 import TypingText from '../components/TypingText.js';
-import AsciiWords from '../components/AsciiWords.js';
-import imagine from '../assets/download.jpg';
-import projectJson from '../assets/json/projects.json';
 import Carousel from '../components/Carousel.js';
 
 const Projects = () => {
@@ -11,7 +9,7 @@ const Projects = () => {
   const [typingDone, setTypingDone] = useState(false);
 
   useEffect(() => {
-    setProjects(projectJson);
+    setProjects(projectData);
   }, []);
 
   const handleTypingDone = () => {
