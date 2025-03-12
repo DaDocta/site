@@ -1,38 +1,38 @@
 [
     {
-      "name": "Star Chart",
-      "description": "Why not have Windows read what you highlight?",
-      "progress": 92,
-      "link": "https://starchart.site/"
-    },
-    {
       "name": "Celestial Center",
-      "description": "Audio Decypther And Manager.",
+      "description": "My very own ecommerce platform selling various software",
       "progress": 76,
       "link": "https://celestialcenter.store/"
     },
     {
       "name": "Heavenly Hub",
-      "description": "A website dedicated to having everyone hear the good news!",
-      "progress": 12,
+      "description": "A website dedicated to helping you see God everywhere in your life!",
+      "progress": 100,
       "link": "https://heavenlyhub.org/"
     },
     {
-      "name": "C.O.S.M.O.",
-      "description": "A website dedicated to having everyone hear the good news!",
-      "progress": 12,
-      "link": ""
+      "name": "A.S.T.R.A.",
+      "description": "Advanced Speech Task Recognition Assistant",
+      "progress": 85,
+      "link": "/files/Placeholder.txt"
     },
     {
-      "name": "A.S.T.R.A.",
-      "description": "A website dedicated to having everyone hear the good news!",
-      "progress": 97,
-      "link": ""
+      "name": "Star Chart",
+      "description": "A website dedicated to creating web portfolios",
+      "progress": 100,
+      "link": "https://starchart.site/"
+    },
+    {
+      "name": "C.O.S.M.O.",
+      "description": "Core Operating System for Machine Optimization",
+      "progress": 100,
+      "link": "/files/COSMO.zip"
     },
     {
       "name": "Legacy Device",
       "description": "Now you can work on your computer even when six feet under.",
       "progress": 12,
-      "link": ""
+      "link": "/files/Placeholder.txt"
     }
-  ]
+]

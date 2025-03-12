@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/About.css';
 import TypingText from '../components/TypingText.js';
-import resume from '../assets/resume.pdf';
 
 const About = () => {
   const getCodingYears = () => {
@@ -20,6 +19,8 @@ const About = () => {
 
   const conceptsList1 = ["Machine Learning", "Mobile Development", "Hardware Programming"];
   const conceptsList2 = ["Web Development", "Data Analysis", "Game Development"];
+
+  const resumeLink = "/files/Resume.pdf";
 
   const [index, setIndex] = useState(0);
   const [typingDone, setTypingDone] = useState(false);
@@ -98,7 +99,7 @@ const About = () => {
           <p>* I am a {getStudentYears()} student at the <span className="UK">University of Kentucky</span> (Computer Science B.S.)</p>
           <p>* Computer Science has been my primary language for well over <span className='year'>{getCodingYears()}</span> years</p>
           <p>* I have taken on many projects with topics that range from <span className="concept1">{conceptsList1[index]}</span> to <span className="concept2">{conceptsList2[index]}</span></p>
-          <p>* Still curious? Why not click on my <a href={resume} download="Garrett_Strange_Resume" className='resume-link'>resume</a>?</p>
+          <p>* Still curious? Why not click on my <a href={resumeLink} download="Garrett_Strange_Resume" className='resume-link'>resume</a>?</p>
         </div>
       </TypingText>
     </div>
