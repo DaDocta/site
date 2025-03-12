@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Carousel.css';
+import { FaLink } from "react-icons/fa";
+
 
 const Carousel = ({ projects, canClick }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -54,7 +56,7 @@ const Carousel = ({ projects, canClick }) => {
                     <p className='description'>{projects[currentIndex].description}</p>
                     {projects[currentIndex].link && (
                         <a href={projects[currentIndex].link} target="_blank" rel="noopener noreferrer" className="visit-link">
-                            Visit Here
+                            {isLandscape ? "Visit Here" : <FaLink />}
                         </a>
                     )}
                 </div>
